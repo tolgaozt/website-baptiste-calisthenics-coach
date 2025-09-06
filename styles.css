@@ -85,7 +85,7 @@ h2 { font-size: 2.5rem; text-align: center; margin-bottom: 2rem; font-weight: 60
 
 .hero-title-background {
     position: absolute;
-    top: 40%;
+    top: var(--hero-title-top-position, 50%);
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 0; /* LA COUCHE LA PLUS BASSE, DERRIÈRE TOUT */
@@ -105,7 +105,7 @@ h2 { font-size: 2.5rem; text-align: center; margin-bottom: 2rem; font-weight: 60
 
 .hero-subtitle {
     position: absolute;
-    bottom: 8vh; /* Positionné à 8% de la hauteur de l'écran depuis le bas */
+    bottom: var(--hero-subtitle-bottom-position, 8vh);
     left: 50%;
     transform: translateX(-50%);
     z-index: 6; /* MÊME NIVEAU QUE LE PERSONNAGE DE PREMIER PLAN */
@@ -287,7 +287,7 @@ footer { padding: 2rem 0; text-align: center; background-color: #000; color: var
     }
     .hero-subtitle {
         font-size: 0.8rem;
-        bottom: 5vh;
+        bottom: var(--hero-subtitle-bottom-position, 5vh);
         width: 100%;
         text-align: center;
         padding: 0 1rem;
@@ -299,16 +299,24 @@ footer { padding: 2rem 0; text-align: center; background-color: #000; color: var
 
     :root {
         /* personnage de premier plan */
-        --hero-fg-y: 40px; 
+        --hero-fg-y: 80px; 
         --hero-fg-scale: 0.5;
 
         /* personnage derrière */
-        --hero-bg-y: 60px;
-        --hero-bg-scale: 1.0;
+        --hero-bg-y: 40px;
+        --hero-bg-scale: 0.85;
 
         /* sol */
         --hero-floor-scale: 2.0;
-        --hero-floor-y: -120px;
+        --hero-floor-y: -80px;
+
+        /* Contrôle la hauteur du grand titre "BAPTISTE AUVREY" */
+        /* (50% est le centre, 40% le remonte, 60% le descend) */
+        --hero-title-top-position: 20%;
+
+        /* Contrôle la hauteur du sous-titre "Calisthenics Guides..." */
+        /* (la distance depuis le bas de l'écran) */
+        --hero-subtitle-bottom-position: 15vh;
     }
 }
 
