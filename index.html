@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Auvrey - Calisthenics Coach</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div id="navbar-placeholder" data-component="components/navbar-index.html"></div>
+    <!-- END NAVBAR -->
+    
+    <main>
+        <!-- SECTION HÉROS AVEC PARALLAX -->
+        <section id="hero" class="hero-section">
+            <h1 class="hero-title-background">BAPTISTE AUVREY</h1>
+            <img src="images/Hero2.png" alt="Portrait du coach en arrière-plan" class="hero-background-image">
+            <img src="images/herofloor.png" alt="Sol texturé" class="hero-floor-image">
+            <img src="images/Hero1.png" alt="Coach en pleine figure de calisthenics" class="hero-foreground-image">
+            <p class="hero-subtitle">Callisthenics Guides : From Zero to Hero</p>
+        </section>
+
+        <!-- SECTION PROGRAMMES -->
+        <section id="programs" class="content-section">
+            <div class="container">
+                <h2>My Programs</h2>
+                <div class="programs-grid">
+                    <a href="pages/program1.html" class="program-card-link">
+                        <div class="program-card">
+                            <img src="images/program1.png" alt="Couverture du programme 1">
+                            <h3>The Ultimate Guide</h3>
+                            <p>The complete guide to mastering calisthenics, from beginner to elite.</p>
+                            <span class="btn-primary">Discover</span>
+                        </div>
+                    </a>
+                    
+                    <a href="pages/program2.html" class="program-card-link">
+                        <div class="program-card">
+                            <img src="images/program2.png" alt="Couverture du programme 2">
+                            <h3>Advanced Skills</h3>
+                            <p>Unlock advanced moves and reach a new level of strength.</p>
+                            <span class="btn-primary">Discover</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION À PROPOS (MISE À JOUR) -->
+        <section id="about" class="content-section light-bg">
+            <div class="container about-container">
+                <div class="about-image-carousel">
+                    <div class="carousel-track">
+                        <div class="carousel-slide"><img src="images/About1.png" alt="Baptiste Auvrey 1"></div>
+                        <div class="carousel-slide"><img src="images/About2.png" alt="Baptiste Auvrey 2"></div>
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="carousel-dot active"></button>
+                        <button class="carousel-dot"></button>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h2>About Me</h2>
+                    <h3>RISE FROM NOTHING</h3>
+                    <p>Passionate about movement and self-improvement, I've dedicated years to mastering the art of calisthenics. My goal is to share this passion with you and provide you with the tools to transform your physique and mindset. Together, we will build the best version of yourself.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION TÉMOIGNAGES -->
+        <section id="testimonials" class="content-section">
+            <div class="container">
+                <h2>What they think</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p>"The program completely changed my vision of training. The results are incredible. I never thought I'd reach this level."</p>
+                        <span>- Alex R.</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Clear, progressive, and incredibly motivating. Baptiste is an exceptional coach who knows how to push you to exceed your limits."</p>
+                        <span>- Julia M.</span>
+                    </div>
+                     <div class="testimonial-card">
+                        <p>"I finally achieved my first planche thanks to this guide. It's more than a program, it's a true training system."</p>
+                        <span>- Léo G.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION CONTACT -->
+        <section id="contact" class="content-section light-bg">
+            <div class="container">
+                <h2>Contact me</h2>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="7" required></textarea>
+                    <button type="submit" class="btn-primary">Send</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <div id="footer-placeholder" data-component="components/footer.html"></div>
+    <!-- END FOOTER -->
+
+    <script src="components.js"></script>
+</body>
+</html>
