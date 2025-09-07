@@ -71,22 +71,17 @@
         </section>
 
         <!-- SECTION À PROPOS (MISE À JOUR) -->
-        <section id="about" class="content-section light-bg">
-            <div class="container about-container">
-                <div class="about-image-carousel">
-                    <div class="carousel-track">
-                        <div class="carousel-slide"><img src="images/About1.png" alt="Baptiste Auvray 1"></div>
-                        <div class="carousel-slide"><img src="images/About2.png" alt="Baptiste Auvray 2"></div>
+        <section id="about" class="content-section about-section">
+            <div class="container">
+                <div class="about-card-layout"> 
+                    <div class="about-image">
+                        <img src="images/About1.png" alt="Baptiste Auvray">
                     </div>
-                    <div class="carousel-nav">
-                        <button class="carousel-dot active"></button>
-                        <button class="carousel-dot"></button>
+                    <div class="about-text">
+                        <h2>About Me</h2>
+                        <h3>RISE FROM NOTHING</h3>
+                        <p>Passionate about movement and self-improvement, I've dedicated years to mastering the art of calisthenics. My goal is to share this passion with you and provide you with the tools to transform your physique and mindset. Together, we will build the best version of yourself.</p>
                     </div>
-                </div>
-                <div class="about-text">
-                    <h2>About Me</h2>
-                    <h3>RISE FROM NOTHING</h3>
-                    <p>Passionate about movement and self-improvement, I've dedicated years to mastering the art of calisthenics. My goal is to share this passion with you and provide you with the tools to transform your physique and mindset. Together, we will build the best version of yourself.</p>
                 </div>
             </div>
         </section>
@@ -113,13 +108,18 @@
         </section>
 
         <!-- SECTION CONTACT -->
-        <section id="contact" class="content-section light-bg">
+        <section id="contact" class="content-section contact-section">
             <div class="container">
                 <h2>Contact me</h2>
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea placeholder="Your Message" rows="7" required></textarea>
+                <!-- La structure du formulaire est déjà parfaite -->
+                <form class="contact-form" action="https://formsubmit.co/auvraycalisthenics@gmail.com" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" rows="7" required></textarea>
+                
+                    <input type="hidden" name="_next" id="form-redirect">
+                
+                    <input type="hidden" name="_captcha" value="false">
                     <button type="submit" class="btn-primary">Send</button>
                 </form>
             </div>
@@ -179,6 +179,28 @@
 
             // Exécuter la fonction une fois que la page est chargée
             updateColorFilter();
+        });
+    </script>
+
+    <!-- NOUVEAU : SCRIPT POUR LA REDIRECTION DYNAMIQUE DU FORMULAIRE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. On cible le champ caché grâce à son nouvel ID
+            const redirectInput = document.getElementById('form-redirect');
+
+            if (redirectInput) {
+                // 2. On récupère l'URL de la page actuelle (ex: "https://.../index.html")
+                const currentPageUrl = window.location.href;
+                
+                // 3. On construit l'URL de base en enlevant le nom du fichier
+                const baseUrl = currentPageUrl.substring(0, currentPageUrl.lastIndexOf('/') + 1);
+                
+                // 4. On crée l'URL complète pour la page de remerciement
+                const thankYouUrl = baseUrl + 'thank-you.html';
+                
+                // 5. On injecte cette URL dynamique dans le champ du formulaire
+                redirectInput.value = thankYouUrl;
+            }
         });
     </script>
 

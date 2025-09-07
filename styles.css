@@ -8,7 +8,7 @@
     --bg-light: #1d1d1c;
     --text-primary: #f0f0f0;
     --text-secondary: #a0a0a0;
-    --accent-color: #cf9b3b;
+    --accent-color: #faca15;
     --accent-color-hover: #aa7718;
     --accent-beige: #D2B48C;
 
@@ -21,12 +21,12 @@
     --hero-floor-x: 5vw;
     --hero-floor-y: -30px;
 
-    --hero-fg-scale: 0.6;
+    --hero-fg-scale: 0.8;
     --hero-fg-x: 12vw;
     --hero-fg-y: 160px;
     
     --hero-title-top-position: 40%;
-    --hero-title-x: -20vw;
+    --hero-title-x: -13vw;
     --hero-title-y: 0px;
     
     --hero-subtitle-bottom-position: 8vh;
@@ -133,7 +133,7 @@ h2 {
 }
 
 .nav-logo {
-    color: var(--accent-color);
+    color: #fff;
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: 700;
@@ -264,7 +264,7 @@ footer {
     line-height: 1;
     text-transform: uppercase;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.65);
     text-stroke: 1px rgba(255, 255, 255, 0.5);
     opacity: 0;
     animation: fadeIn 1s ease-out 1s forwards;
@@ -278,7 +278,6 @@ footer {
     transform: translate(calc(-50% + var(--hero-bg-x)), calc(-50% + var(--hero-bg-y))) scale(var(--hero-bg-scale));
     opacity: 0;
     animation: fadeIn 2s ease-out 2s forwards;
-    filter: url(#colorize-filter) brightness(1.2);
 }
 
 .hero-floor-image {
@@ -297,7 +296,6 @@ footer {
     bottom: 0;
     height: 80vh;
     transform: translate(calc(-50% + var(--hero-fg-x)), var(--hero-fg-y)) scale(var(--hero-fg-scale));
-    filter: grayscale(50%) brightness(1);
     opacity: 0;
     animation: fadeIn 1s ease-out 1.5s forwards;
 }
@@ -406,18 +404,38 @@ footer {
 
 
 /* --- 4.3 Section À Propos --- */
-.about-container {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
+/* La section parente a un fond noir */
+.about-section {
+    background-color: var(--bg-dark); /* Fond noir pour voir la carte */
 }
 
-.about-text {
-    flex: 1.2;
+/* La carte, centrée, avec une largeur maximale */
+.about-card-layout {
+    max-width: 900px;  /* Contrôle la largeur de la carte. Ajustez si besoin. */
+    margin: 0 auto;    /* Centre la carte dans la section */
+    background-color: var(--bg-light); 
+    border-radius: 10px;               
+    padding: 2rem;                     
+    text-align: center;                
 }
 
+/* Le conteneur de l'image (mobile-first) */
+.about-image {
+    max-width: 250px; /* CONTRÔLE DE LA TAILLE SUR MOBILE. Diminuez pour une image plus petite. */
+    margin: 0 auto 2rem auto; 
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    /* On enlève les propriétés qui cassaient le design */
+}
+
+/* Le texte (mobile-first) */
 .about-text h2 {
-    text-align: left;
+    text-align: center; 
     margin-bottom: 1rem;
 }
 
@@ -430,58 +448,6 @@ footer {
 .about-text p {
     color: var(--text-secondary);
 }
-
-/* Carrousel d'images */
-.about-image-carousel {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    cursor: grab;
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-
-.carousel-slide {
-    min-width: 100%;
-    box-sizing: border-box;
-}
-
-.carousel-slide img {
-    width: 100%;
-    display: block;
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.carousel-slide img:hover {
-    transform: scale(1.05);
-}
-
-.carousel-nav {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-}
-
-.carousel-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    background: transparent;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.carousel-dot.active {
-    background-color: #fff;
-}
-
 
 /* --- 4.4 Section Témoignages --- */
 .testimonials-grid {
@@ -510,21 +476,33 @@ footer {
 
 
 /* --- 4.5 Section Contact --- */
+/* La section parente a un fond noir pour faire ressortir la carte */
+.contact-section {
+    background-color: var(--bg-dark);
+}
+
+/* On transforme le conteneur du formulaire en une carte stylée */
 .contact-form {
     max-width: 600px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    
+    /* NOUVEAU : On ajoute les styles de la carte */
+    background-color: var(--bg-light);
+    padding: 2rem;
+    border-radius: 10px;
 }
 
+/* On ajuste les styles des champs pour qu'ils s'intègrent bien dans la carte */
 .contact-form input,
 .contact-form textarea {
     width: 100%;
     padding: 1rem;
     border: 1px solid #333;
     border-radius: 5px;
-    background-color: var(--bg-dark);
+    background-color: var(--bg-dark); /* On garde un fond sombre pour le contraste */
     color: var(--text-primary);
     font-family: 'Poppins', sans-serif;
 }
@@ -577,7 +555,6 @@ footer {
     font-size: 4rem;
     line-height: 1.1;
     color: #f0f0f0;
-    text-shadow: 2px 2px 1px rgba(0, 255, 255, 0.5), -2px -2px 1px rgba(255, 0, 255, 0.5);
 }
 
 .program-tagline {
@@ -756,15 +733,15 @@ footer {
     
     /* --- Section Hero (Mobile) --- */
     :root {
-        --hero-fg-y: 100px;
-        --hero-fg-scale: 0.5;
+        --hero-fg-y: 50px;
+        --hero-fg-scale: 0.65;
         --hero-bg-y: -40px;
         --hero-bg-scale: 0.85;
         --hero-floor-scale: 2.0;
-        --hero-floor-y: -60px; 
+        --hero-floor-y: -100px; 
         
         /* On s'assure que le titre est bien centré sur mobile en réinitialisant la variable */
-        --hero-title-top-position: 20%;
+        --hero-title-top-position: 17%;
         --hero-title-x: 0px; 
         
         --hero-subtitle-bottom-position: 12vh;
@@ -778,8 +755,8 @@ footer {
     .hero-title-background {
         text-align: center;
         font-size: 16vw;
-        -webkit-text-stroke-width: 1px;
-        text-stroke-width: 1px;
+        -webkit-text-stroke-width: 0.5px;
+        text-stroke-width: 0.5px;
     }
     
     .hero-subtitle {
@@ -794,11 +771,6 @@ footer {
     .testimonials-grid {
         grid-template-columns: 1fr;
     }
-    
-    /* --- Section À Propos (Mobile) --- */
-    .about-container {
-        flex-direction: column;
-    }
 
     /* --- Pages de Programme (Mobile) --- */
     .program-hero-layout {
@@ -808,5 +780,30 @@ footer {
 
     .program-details .chromatic-text {
         font-size: 2.5rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .about-card-layout {
+        display: flex;         
+        align-items: center;   
+        text-align: left;      
+        gap: 3rem;   
+        padding: 3rem; 
+    }
+
+    .about-image {
+        /* CONTRÔLE DE LA TAILLE SUR PC. Diminuez ce % pour une image plus petite */
+        flex-basis: 30%; 
+        max-width: none;
+        margin: 0;        
+    }
+
+    .about-text {
+        flex-basis: 70%; /* Le texte prend le reste */
+    }
+
+    .about-text h2 {
+        text-align: left;
     }
 }

@@ -9,18 +9,13 @@ function initializeSiteLogic() {
     const loader = document.getElementById('loader');
     if (loader) {
         let loaderHidden = false;
-        
         const hideLoader = () => {
             if (!loaderHidden) {
                 loader.classList.add('loader-hidden');
                 loaderHidden = true;
             }
         };
-
-        // Option 1 : La page charge rapidement
         window.addEventListener('load', hideLoader);
-
-        // Option 2 : Failsafe si le chargement est trop long (2 secondes max)
         setTimeout(hideLoader, 2000);
     }
 
@@ -90,42 +85,9 @@ function initializeSiteLogic() {
         }
     }
 
-    // --- SECTION À PROPOS: CARROUSEL ---
-    const carousel = document.querySelector('.about-image-carousel');
-    if (carousel) {
-        const track = carousel.querySelector('.carousel-track');
-        const slides = Array.from(track.children);
-        const dotsNav = carousel.querySelector('.carousel-nav');
-        const dots = Array.from(dotsNav.children);
-        if (slides.length === 0) return;
-        let currentIndex = 0;
-        const slideWidth = slides[0].getBoundingClientRect().width;
-        const moveToSlide = (targetIndex) => {
-            if (!track || !dots[currentIndex] || !dots[targetIndex]) return;
-            track.style.transform = 'translateX(-' + slideWidth * targetIndex + 'px)';
-            dots[currentIndex].classList.remove('active');
-            dots[targetIndex].classList.add('active');
-            currentIndex = targetIndex;
-        };
-        dotsNav.addEventListener('click', e => {
-            const targetDot = e.target.closest('button.carousel-dot');
-            if (!targetDot) return;
-            const targetIndex = dots.findIndex(dot => dot === targetDot);
-            moveToSlide(targetIndex);
-        });
-        let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0;
-        const getPositionX = (event) => event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        const touchStart = (event) => { isDragging = true; startPos = getPositionX(event); carousel.style.cursor = 'grabbing'; };
-        const touchMove = (event) => { if (isDragging) { const currentPosition = getPositionX(event); currentTranslate = prevTranslate + currentPosition - startPos; track.style.transform = `translateX(${currentTranslate}px)`; } };
-        const touchEnd = () => { isDragging = false; carousel.style.cursor = 'grab'; const movedBy = currentTranslate - prevTranslate; if (movedBy < -50 && currentIndex < slides.length - 1) currentIndex++; if (movedBy > 50 && currentIndex > 0) currentIndex--; moveToSlide(currentIndex); prevTranslate = -currentIndex * slideWidth; track.style.transform = `translateX(${prevTranslate}px)`; };
-        carousel.addEventListener('mousedown', touchStart);
-        carousel.addEventListener('mousemove', touchMove);
-        carousel.addEventListener('mouseup', touchEnd);
-        carousel.addEventListener('mouseleave', touchEnd);
-        carousel.addEventListener('touchstart', touchStart, { passive: true });
-        carousel.addEventListener('touchmove', touchMove, { passive: true });
-        carousel.addEventListener('touchend', touchEnd);
-    }
+    // ==================================================================
+    // SUPPRIMÉ : Toute la logique pour le carrousel a été enlevée.
+    // ==================================================================
 }
 
 /**
