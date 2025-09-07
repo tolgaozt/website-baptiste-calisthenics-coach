@@ -5,16 +5,26 @@
  */
 function initializeSiteLogic() {
 
-    // --- LOGIQUE DE L'ÉCRAN DE CHARGEMENT (PRELOADER) ---
+    // --- LOGIQUE DE L'ÉCRAN DE CHARGEMENT (PRELOADER) AVEC SÉCURITÉ ---
     const loader = document.getElementById('loader');
     if (loader) {
-        window.onload = () => {
-            loader.classList.add('loader-hidden');
+        let loaderHidden = false;
+        
+        const hideLoader = () => {
+            if (!loaderHidden) {
+                loader.classList.add('loader-hidden');
+                loaderHidden = true;
+            }
         };
+
+        // Option 1 : La page charge rapidement
+        window.addEventListener('load', hideLoader);
+
+        // Option 2 : Failsafe si le chargement est trop long (2 secondes max)
+        setTimeout(hideLoader, 2000);
     }
 
     // --- NAVBAR: EFFET AU DÉFILEMENT & MENU MOBILE ---
-    // ... (votre code navbar reste inchangé) ...
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
@@ -38,7 +48,6 @@ function initializeSiteLogic() {
     }
 
     // --- SECTION HÉROS: EFFET PARALLAX ---
-    // ... (votre code parallax reste inchangé) ...
     const heroSection = document.querySelector('.hero-section');
     if (heroSection) {
         const titleBackground = heroSection.querySelector('.hero-title-background');
@@ -66,33 +75,22 @@ function initializeSiteLogic() {
             });
         }
     }
-
-    // =================================================================================
-    // NOUVEAU : LOGIQUE POUR L'ASPECT RATIO DYNAMIQUE DES CARTES DE PROGRAMME
-    // =================================================================================
+    
+    // --- LOGIQUE POUR L'ASPECT RATIO DYNAMIQUE DES CARTES DE PROGRAMME ---
     const dynamicImages = document.querySelectorAll('.program-image-dynamic');
     dynamicImages.forEach(img => {
-        // On s'assure que le code s'exécute même si l'image est déjà en cache
-        if (img.complete) {
-            setAspectRatio(img);
-        } else {
-            // Sinon, on attend que l'image soit chargée
-            img.addEventListener('load', () => setAspectRatio(img));
-        }
+        if (img.complete) { setAspectRatio(img); } 
+        else { img.addEventListener('load', () => setAspectRatio(img)); }
     });
 
     function setAspectRatio(img) {
         const wrapper = img.parentElement;
         if (wrapper && img.naturalHeight > 0) {
-            const ratio = img.naturalWidth / img.naturalHeight;
-            wrapper.style.aspectRatio = ratio;
+            wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight;
         }
     }
-    // =================================================================================
-
 
     // --- SECTION À PROPOS: CARROUSEL ---
-    // ... (votre code carrousel reste inchangé) ...
     const carousel = document.querySelector('.about-image-carousel');
     if (carousel) {
         const track = carousel.querySelector('.carousel-track');
