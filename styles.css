@@ -756,18 +756,18 @@ footer {
     
     /* --- Section Hero (Mobile) --- */
     :root {
-        --hero-fg-y: 80px;
+        --hero-fg-y: 100px;
         --hero-fg-scale: 0.5;
-        --hero-bg-y: -60px;
+        --hero-bg-y: -40px;
         --hero-bg-scale: 0.85;
         --hero-floor-scale: 2.0;
-        --hero-floor-y: -80px;
+        --hero-floor-y: -60px; 
         
         /* On s'assure que le titre est bien centré sur mobile en réinitialisant la variable */
-        --hero-title-top-position: 17%;
+        --hero-title-top-position: 20%;
         --hero-title-x: 0px; 
         
-        --hero-subtitle-bottom-position: 15vh;
+        --hero-subtitle-bottom-position: 12vh;
 
         /* On réinitialise le décalage horizontal des images pour le mobile */
         --hero-bg-x: 0px;
