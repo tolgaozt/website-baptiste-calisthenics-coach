@@ -1,115 +1,313 @@
-/* --- VARIABLES ET STYLES GLOBAUX --- */
+/* ==========================================================================
+   1. VARIABLES GLOBALES ET CONFIGURATION DE BASE
+   ========================================================================== */
+
 :root {
+    /* --- Couleurs --- */
     --bg-dark: #000000;
-    --bg-light: #1a1a0a;
+    --bg-light: #1d1d1c;
     --text-primary: #f0f0f0;
     --text-secondary: #a0a0a0;
-    --accent-red: #B91C1C;
+    --accent-color: #cf9b3b;
+    --accent-color-hover: #aa7718;
     --accent-beige: #D2B48C;
 
-    /* --- TABLEAU DE BORD POUR LE HÉROS --- */
+    /* --- Tableau de bord pour la section Hero (Parallax) --- */
     --hero-bg-scale: 1.15;
-    --hero-bg-x: 0px;
+    --hero-bg-x: 10vw; 
     --hero-bg-y: 0px;
+
     --hero-floor-scale: 3;
-    --hero-floor-x: 0px;
+    --hero-floor-x: 5vw;
     --hero-floor-y: -30px;
+
     --hero-fg-scale: 0.6;
-    --hero-fg-x: 0px;
+    --hero-fg-x: 12vw;
     --hero-fg-y: 160px;
+    
+    --hero-title-top-position: 40%;
+    --hero-title-x: -20vw;
+    --hero-title-y: 0px;
+    
+    --hero-subtitle-bottom-position: 8vh;
 }
 
-/* ... (styles globaux, navbar, etc.) ... */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Poppins', sans-serif; background-color: var(--bg-dark); color: var(--text-primary); line-height: 1.6; }
-.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-h2 { font-size: 2.5rem; text-align: center; margin-bottom: 2rem; font-weight: 600; }
-.content-section { padding: 5rem 0; }
-.light-bg { background-color: var(--bg-light); }
-.btn-primary { display: inline-block; background-color: var(--accent-red); color: #fff; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: 600; transition: background-color 0.3s ease; }
-.btn-primary:hover { background-color: #991B1B; }
-.navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 1rem 0; transition: background-color 0.3s ease, padding 0.3s ease; background-color: rgba(10, 10, 10, 0.7); backdrop-filter: blur(10px); }
-.navbar.scrolled { background-color: var(--bg-dark); padding: 0.5rem 0; }
-.navbar-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-.nav-logo { color: #fff; text-decoration: none; font-size: 1.5rem; font-weight: 700; }
-.nav-menu { display: flex; list-style: none; align-items: center; }
-.nav-item { margin-left: 2rem; position: relative; }
+/* --- Styles Généraux (Reset & Typographie) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* --- Helpers de Layout --- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.light-bg {
+    background-color: var(--bg-light);
+}
+
+
+/* ==========================================================================
+   2. COMPOSANTS RÉUTILISABLES
+   ========================================================================== */
+
+/* --- Boutons --- */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color-hover);
+}
+
+.btn-large {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+}
+
+
+/* ==========================================================================
+   3. STRUCTURE PRINCIPALE (NAVBAR & FOOTER)
+   ========================================================================== */
+
+/* --- Navbar --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1rem 0;
+    transition: background-color 0.3s ease, padding 0.3s ease;
+    background-color: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(10px);
+}
+
+.navbar.scrolled {
+    background-color: var(--bg-dark);
+    padding: 0.5rem 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.nav-logo {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-item {
+    margin-left: 2rem;
+    position: relative;
+}
+
 .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.3s ease;
-    padding-bottom: 5px; /* AJOUT : Un peu d'espace pour la barre */
+    padding-bottom: 5px;
 }
+
+.nav-link:hover {
+    color: #fff;
+}
+
 .nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    
-    /* État initial : la barre est cachée (largeur 0) */
-    width: 0; 
+    width: 0;
     height: 2px;
-    background-color: var(--accent-red);
-    
-    /* L'animation de la barre */
-    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    background-color: var(--accent-color);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
 .nav-link:hover::after {
     width: 100%;
 }
-.nav-link:hover { color: #fff; }
-.nav-btn { background-color: var(--accent-red); color: #fff; padding: 8px 20px; border-radius: 5px; text-decoration: none; transition: background-color 0.3s ease; }
-.nav-btn:hover { background-color: #991B1B; }
-.nav-hamburger { display: none; cursor: pointer; }
-.nav-hamburger div { width: 25px; height: 3px; background-color: #fff; margin: 5px; transition: all 0.3s ease; }
+
+.nav-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: var(--accent-color-hover);
+}
+
 .nav-socials {
     display: flex;
     align-items: center;
 }
+
 .social-link {
     color: var(--text-secondary);
-    font-size: 1.3rem; /* Un peu plus grand que le texte */
-    margin: 0 0.75rem; /* Espace entre les icônes */
+    font-size: 1.3rem;
+    margin: 0 0.75rem;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .social-link:hover {
     color: #fff;
-    transform: scale(1.1); /* Léger grossissement au survol */
+    transform: scale(1.1);
 }
 
-/* --- SECTION HÉROS --- */
-.hero-section { position: relative; width: 100%; height: 100vh; background-color: var(--bg-dark); overflow: hidden; }
-.hero-section img { position: absolute; left: 50%; transition: transform 0.2s ease-out; width: auto; }
+/* --- Menu Hamburger (Mobile) --- */
+.nav-hamburger {
+    display: none;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.nav-hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* --- Footer --- */
+footer {
+    padding: 2rem 0;
+    text-align: center;
+    background-color: #000;
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================================
+   4. SECTIONS DE LA PAGE D'ACCUEIL (INDEX.HTML)
+   ========================================================================== */
+
+/* --- 4.1 Section Hero --- */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg-dark);
+    overflow: hidden;
+}
+
+.hero-section img {
+    position: absolute;
+    left: 50%;
+    width: auto;
+    transition: transform 0.5s ease-out;
+}
 
 .hero-title-background {
     position: absolute;
-    top: var(--hero-title-top-position, 50%);
+    z-index: 0;
+    width: auto;
+    top: var(--hero-title-top-position);
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 0; /* LA COUCHE LA PLUS BASSE, DERRIÈRE TOUT */
-    width: 100%;
-    text-align: center;
+    text-align: left;
     font-family: 'Oswald', sans-serif;
-    font-size: 18vw; /* Une taille énorme qui s'adapte à la largeur de l'écran */
+    font-size: 10vw;
     font-weight: 700;
     line-height: 1;
     text-transform: uppercase;
-    
-    /* La magie pour l'effet "contour" */
     color: transparent;
-    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.15); /* Bordure blanche très discrète */
-    text-stroke: 1px rgba(255, 255, 255, 0.15);
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+    text-stroke: 1px rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1s forwards;
+    transition: transform 0.5s ease-out;
+}
+
+.hero-background-image {
+    z-index: 1;
+    top: 50%;
+    height: 90vh;
+    transform: translate(calc(-50% + var(--hero-bg-x)), calc(-50% + var(--hero-bg-y))) scale(var(--hero-bg-scale));
+    opacity: 0;
+    animation: fadeIn 2s ease-out 2s forwards;
+    filter: url(#colorize-filter) brightness(1.2);
+}
+
+.hero-floor-image {
+    z-index: 2;
+    bottom: 0;
+    height: 50vh;
+    width: 200%;
+    object-fit: cover;
+    transform: translate(calc(-50% + var(--hero-floor-x)), var(--hero-floor-y)) scale(var(--hero-floor-scale));
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.5s forwards;
+}
+
+.hero-foreground-image {
+    z-index: 3;
+    bottom: 0;
+    height: 80vh;
+    transform: translate(calc(-50% + var(--hero-fg-x)), var(--hero-fg-y)) scale(var(--hero-fg-scale));
+    filter: grayscale(50%) brightness(1);
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1.5s forwards;
 }
 
 .hero-subtitle {
     position: absolute;
-    bottom: var(--hero-subtitle-bottom-position, 8vh);
+    z-index: 6;
+    bottom: var(--hero-subtitle-bottom-position);
     left: 50%;
     transform: translateX(-50%);
-    z-index: 6; /* MÊME NIVEAU QUE LE PERSONNAGE DE PREMIER PLAN */
-    
     color: var(--text-secondary);
     font-size: 1.5rem;
     font-weight: 300;
@@ -117,122 +315,254 @@ h2 { font-size: 2.5rem; text-align: center; margin-bottom: 2rem; font-weight: 60
     letter-spacing: 2px;
 }
 
+/* Effets de calques (vignette et dégradé) */
 .hero-section::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 4; pointer-events: none;
-    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%), linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 50%);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    pointer-events: none;
+    background: 
+        radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%), 
+        linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 50%);
 }
 
 .hero-section::after {
     content: '';
     position: absolute;
-    bottom: 0; /* Positionné tout en bas de la section */
-    left: 0;
-    width: 100%;
-    height: 25vh; /* Le fondu fera 25% de la hauteur de l'écran */
-    z-index: 5; /* Placé au-dessus de toutes les images pour les masquer */
-    pointer-events: none; /* N'interfère pas avec la souris */
-    
-    /* Un simple dégradé de transparent vers le noir du site */
-    background: linear-gradient(to bottom, transparent 0%, var(--bg-dark) 90%);
-}
-
-.hero-background-image {
-    z-index: 2; top: 50%; height: 90vh;
-    transform: translate(calc(-50% + var(--hero-bg-x)), calc(-50% + var(--hero-bg-y))) scale(var(--hero-bg-scale));
-    filter: grayscale(100%) brightness(0.5);
-    opacity: 0; /* Opacité de départ à 0 pour l'animation */
-    animation: fadeIn 2s ease-out 2s forwards;
-}
-
-.hero-floor-image {
-    z-index: 2; bottom: 0; height: 50vh; width: 200%; object-fit: cover;
-    transform: translate(calc(-50% + var(--hero-floor-x)), var(--hero-floor-y)) scale(var(--hero-floor-scale));
-    opacity: 0;
-    animation: fadeIn 1s ease-out 0.5s forwards;
-    position: relative; /* Indispensable pour positionner le ::after à l'intérieur */
-    overflow: hidden;
-}
-
-.hero-floor-image::after {
-    content: '';
-    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* Le calque prend toute la taille de l'image du sol */
-    
-    /* C'EST LA MAGIE : Un dégradé qui part de transparent et finit sur la couleur du fond du site */
-    background: linear-gradient(to bottom, 
-        transparent 50%, 
-        var(--bg-dark) 100%
-    );
+    height: 25vh;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent 0%, var(--bg-dark) 90%);
 }
 
-.hero-foreground-image {
-    z-index: 3; bottom: 0; height: 80vh;
-    transform: translate(calc(-50% + var(--hero-fg-x)), var(--hero-fg-y)) scale(var(--hero-fg-scale));
-    filter: grayscale(50%) brightness(1);
-    opacity: 0;
-    animation: fadeIn 1s ease-out 1.5s forwards;
+
+/* --- 4.2 Section Programmes --- */
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
 }
 
-/* ... (autres sections) ... */
-.programs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+.program-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.program-card-link:hover {
+    transform: translateY(-10px);
+}
+
 .program-card {
     background-color: var(--bg-light);
     border-radius: 10px;
     overflow: hidden;
     text-align: center;
+    padding: 1rem;
     padding-bottom: 2rem;
-    height: 100%; /* S'assure que toutes les cartes ont la même hauteur */
+    height: 100%;
+    
+    /* On utilise flexbox pour un meilleur alignement vertical */
+    display: flex;
+    flex-direction: column;
 }
-.program-card-link {
-    text-decoration: none; /* Retire le soulignement du lien */
-    color: inherit; /* Fait en sorte que le texte hérite de la couleur normale */
-    display: block; /* Important pour que le lien prenne tout l'espace */
-    transition: transform 0.3s ease; /* On déplace l'effet de hover ici */
+
+/* LE CONTENEUR DE L'IMAGE */
+.program-card-image-wrapper {
+    width: 100%;
+    border-radius: 10px; /* C'est lui qui a les coins arrondis */
+    overflow: hidden;    /* Il rogne l'image qui est à l'intérieur */
+    margin-bottom: 1.5rem;
+    
+    /* La hauteur sera définie par le JS via "aspect-ratio" */
 }
-.program-card-link:hover {
-    transform: translateY(-10px);
+
+/* L'IMAGE ELLE-MÊME */
+.program-card-image-wrapper img {
+    width: 100%;
+    height: 100%; /* L'image remplit complètement son parent */
+    object-fit: contain; /* Mais elle reste entièrement visible */
+    display: block;
 }
-.program-card:hover { transform: none }
-.program-card img { width: 100%; height: 300px; object-fit: contain; display: block; padding: 1rem;}
-.program-card h3 { margin: 1.5rem 0 0.5rem; font-size: 1.5rem; }
-.program-card p { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); }
-.about-container { display: flex; align-items: center; gap: 3rem; }
-.about-text { flex: 1.2; }
-.about-text h2 { text-align: left; margin-bottom: 1rem; }
-.about-text h3 { color: var(--accent-red); margin-bottom: 1rem; font-weight: 600; }
-.about-text p { color: var(--text-secondary); }
-.about-image-carousel { flex: 1; position: relative; overflow: hidden; cursor: grab; }
-.carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
-.carousel-slide { min-width: 100%; box-sizing: border-box; }
-.carousel-slide img { width: 100%; display: block; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-.carousel-slide img:hover { transform: scale(1.05); }
-.carousel-nav { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; }
-.carousel-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: transparent; cursor: pointer; transition: background-color 0.3s ease; }
-.carousel-dot.active { background-color: #fff; }
-.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.testimonial-card { background: var(--bg-light); padding: 2rem; border-radius: 10px; border-left: 5px solid var(--accent-red); }
-.testimonial-card p { font-style: italic; color: var(--text-secondary); margin-bottom: 1rem; }
-.testimonial-card span { font-weight: 600; color: var(--text-primary); }
-.contact-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
-.contact-form input, .contact-form textarea { width: 100%; padding: 1rem; border: 1px solid #333; border-radius: 5px; background-color: var(--bg-dark); color: var(--text-primary); font-family: 'Poppins', sans-serif; }
-.contact-form button { border: none; cursor: pointer; align-self: flex-start; }
-footer { padding: 2rem 0; text-align: center; background-color: #000; color: var(--text-secondary); }
+
+.program-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.program-card p {
+    padding: 0 0.5rem 1.5rem 0.5rem;
+    color: var(--text-secondary);
+    flex-grow: 1; /* Permet à la description de pousser le bouton vers le bas */
+}
 
 
-/* Dans votre fichier styles.css */
+/* --- 4.3 Section À Propos --- */
+.about-container {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
 
-/* --- PAGE DÉTAILS DU PROGRAMME --- */
-.program-page-section { padding-top: 120px; padding-bottom: 5rem; }
-.program-hero-layout { display: flex; gap: 3rem; align-items: center; margin-bottom: 4rem; }
-.program-image { flex: 1; }
-.program-image img { width: 100%; border-radius: 10px; }
-.program-details { flex: 1; }
+.about-text {
+    flex: 1.2;
+}
 
-/* NOUVEAUX STYLES POUR LES TEXTES DE LA PAGE PROGRAMME */
+.about-text h2 {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.about-text h3 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.about-text p {
+    color: var(--text-secondary);
+}
+
+/* Carrousel d'images */
+.about-image-carousel {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.carousel-slide img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.carousel-slide img:hover {
+    transform: scale(1.05);
+}
+
+.carousel-nav {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-dot.active {
+    background-color: #fff;
+}
+
+
+/* --- 4.4 Section Témoignages --- */
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: var(--bg-light);
+    padding: 2rem;
+    border-radius: 10px;
+    border-left: 5px solid var(--accent-color);
+}
+
+.testimonial-card p {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.testimonial-card span {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+
+/* --- 4.5 Section Contact --- */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+}
+
+.contact-form button {
+    align-self: center;
+}
+
+
+/* ==========================================================================
+   5. STYLES SPÉCIFIQUES AUX PAGES DE PROGRAMME
+   ========================================================================== */
+
+.program-page-section {
+    padding-top: 120px;
+    padding-bottom: 5rem;
+}
+
+.program-hero-layout {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.program-image {
+    flex: 1;
+}
+
+.program-image img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.program-details {
+    flex: 1;
+}
+
 .program-author {
     font-size: 0.9rem;
     font-weight: 600;
@@ -240,88 +570,243 @@ footer { padding: 2rem 0; text-align: center; background-color: #000; color: var
     color: var(--text-secondary);
     margin-bottom: 1rem;
 }
+
 .chromatic-text {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     font-size: 4rem;
     line-height: 1.1;
-    color: #f0f0f0; /* Couleur de base du texte */
-    /* L'EFFET MAGIQUE : des ombres décalées cyan et magenta */
+    color: #f0f0f0;
     text-shadow: 2px 2px 1px rgba(0, 255, 255, 0.5), -2px -2px 1px rgba(255, 0, 255, 0.5);
 }
-.program-tagline { font-size: 1.5rem; font-weight: 600; color: var(--text-primary); margin-top: 0.5rem; text-transform: uppercase; }
-.program-audience { font-size: 1rem; color: var(--text-secondary); margin: 0.5rem 0 1.5rem; }
-.program-price { font-size: 2.5rem; font-weight: 700; color: var(--accent-red); margin-bottom: 2rem; }
-.btn-large { padding: 15px 40px; font-size: 1.2rem; }
 
-/* Styles pour la description détaillée */
-.program-description { max-width: 800px; margin: 0 auto; }
-.program-description h3 { font-size: 1.8rem; margin-top: 2.5rem; margin-bottom: 1rem; border-left: 4px solid var(--accent-red); padding-left: 1rem; }
-.program-description p, .program-description li { color: var(--text-secondary); font-size: 1.1rem; }
-.program-description ul { list-style: none; padding-left: 0; }
-.program-description li { padding-left: 1.5rem; position: relative; margin-bottom: 0.5rem; }
-.program-description li::before { content: '✓'; color: var(--accent-red); position: absolute; left: 0; }
-.final-cta { text-align: center; margin-top: 4rem; }
+.program-tagline {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+}
+
+.program-audience {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0.5rem 0 1.5rem;
+}
+
+.program-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 2rem;
+}
+
+.program-description {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.program-description h3 {
+    font-size: 1.8rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1rem;
+}
+
+.program-description p,
+.program-description li {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.program-description ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.program-description li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.program-description li::before {
+    content: '✓';
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+}
+
+.final-cta {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+/* ==========================================================================
+   X. ÉCRAN DE CHARGEMENT
+   ========================================================================== */
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-dark); /* Doit correspondre au fond de votre site */
+    z-index: 9999;
+    
+    /* Centrer le spinner */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Transition pour la disparition en fondu */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#loader.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--text-secondary);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* On déplace le keyframe 'spin' ici */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   6. ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
 
-/* --- RESPONSIVE (MOBILE) --- */
+/* ==========================================================================
+   7. RESPONSIVE DESIGN
+   ========================================================================== */
+
 @media (max-width: 768px) {
-    h2 { font-size: 2rem; }
-    .nav-menu { position: fixed; left: 0; top: 0; height: 100vh; width: 100%; background-color: var(--bg-dark); flex-direction: column; justify-content: center; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
-    .nav-menu.active { transform: translateX(0%); }
-    .nav-item { margin: 1.2rem 0; position: relative; }
+
+    /* --- Styles Généraux & Typographie (Mobile) --- */
+    h2 {
+        font-size: 2rem;
+    }
+
+    /* --- Navbar (Mobile) --- */
+    .nav-menu {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        background-color: var(--bg-dark);
+        flex-direction: column;
+        justify-content: center;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .nav-menu.active {
+        transform: translateX(0%);
+    }
+
+    .nav-item {
+        margin: 1.2rem 0;
+    }
+
     .nav-socials {
         flex-direction: row;
-        margin: 1.5rem 0; /* Espace vertical dans le menu mobile */
+        margin: 1.5rem 0;
     }
-    .nav-hamburger { display: block; z-index: 101; }
-    .hamburger-toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
-    .hamburger-toggle .line2 { opacity: 0; }
-    .hamburger-toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
-    /* .hero-background-image { height: 70vh; }
-    .hero-floor-image { height: 40vh; }
-    .hero-foreground-image { height: 65vh; } */
+
+    .nav-hamburger {
+        display: block;
+    }
+    
+    .hamburger-toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    .hamburger-toggle .line2 {
+        opacity: 0;
+    }
+    .hamburger-toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    /* --- Section Hero (Mobile) --- */
+    :root {
+        --hero-fg-y: 80px;
+        --hero-fg-scale: 0.5;
+        --hero-bg-y: -60px;
+        --hero-bg-scale: 0.85;
+        --hero-floor-scale: 2.0;
+        --hero-floor-y: -80px;
+        
+        /* On s'assure que le titre est bien centré sur mobile en réinitialisant la variable */
+        --hero-title-top-position: 17%;
+        --hero-title-x: 0px; 
+        
+        --hero-subtitle-bottom-position: 15vh;
+
+        /* On réinitialise le décalage horizontal des images pour le mobile */
+        --hero-bg-x: 0px;
+        --hero-floor-x: 0px;
+        --hero-fg-x: 0px;
+    }
+    
     .hero-title-background {
-        font-size: 20vw; /* Un peu plus grand sur mobile pour le même impact */
-        -webkit-text-stroke-width: 0.5px; /* Bordure plus fine */
+        text-align: center;
+        font-size: 16vw;
+        -webkit-text-stroke-width: 1px;
+        text-stroke-width: 1px;
     }
+    
     .hero-subtitle {
         font-size: 0.8rem;
-        bottom: var(--hero-subtitle-bottom-position, 5vh);
         width: 100%;
         text-align: center;
         padding: 0 1rem;
     }
-    .programs-grid, .testimonials-grid { grid-template-columns: 1fr; }
-    .about-container { flex-direction: column; }
-    .program-hero-layout { flex-direction: column; text-align: center; }
-    .program-details h1 { font-size: 2.5rem; }
-
-    :root {
-        /* personnage de premier plan */
-        --hero-fg-y: 80px; 
-        --hero-fg-scale: 0.5;
-
-        /* personnage derrière */
-        --hero-bg-y: 40px;
-        --hero-bg-scale: 0.85;
-
-        /* sol */
-        --hero-floor-scale: 2.0;
-        --hero-floor-y: -80px;
-
-        /* Contrôle la hauteur du grand titre "BAPTISTE AUVREY" */
-        /* (50% est le centre, 40% le remonte, 60% le descend) */
-        --hero-title-top-position: 20%;
-
-        /* Contrôle la hauteur du sous-titre "Calisthenics Guides..." */
-        /* (la distance depuis le bas de l'écran) */
-        --hero-subtitle-bottom-position: 15vh;
+    
+    /* --- Grilles (Programmes, Témoignages) (Mobile) --- */
+    .programs-grid,
+    .testimonials-grid {
+        grid-template-columns: 1fr;
     }
-}
+    
+    /* --- Section À Propos (Mobile) --- */
+    .about-container {
+        flex-direction: column;
+    }
 
-/* --- ANIMATIONS --- */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    /* --- Pages de Programme (Mobile) --- */
+    .program-hero-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .program-details .chromatic-text {
+        font-size: 2.5rem;
+    }
 }

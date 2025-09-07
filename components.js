@@ -1,35 +1,32 @@
 /**
  * ==================================================================================
  * INITIALISATION DE TOUTE LA LOGIQUE INTERACTIVE DU SITE
- * Cette fonction est le "cerveau" du site. Elle est appelée seulement APRÈS
- * que tous les composants (navbar, footer) ont été chargés dans la page.
  * ==================================================================================
  */
 function initializeSiteLogic() {
 
+    // --- LOGIQUE DE L'ÉCRAN DE CHARGEMENT (PRELOADER) ---
+    const loader = document.getElementById('loader');
+    if (loader) {
+        window.onload = () => {
+            loader.classList.add('loader-hidden');
+        };
+    }
+
     // --- NAVBAR: EFFET AU DÉFILEMENT & MENU MOBILE ---
+    // ... (votre code navbar reste inchangé) ...
     const navbar = document.querySelector('.navbar');
     if (navbar) {
-        // Effet d'opacité au scroll
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
         });
-
-        // Logique du menu hamburger sur mobile
         const hamburger = navbar.querySelector('.nav-hamburger');
         const navMenu = navbar.querySelector('.nav-menu');
         const navLinks = navbar.querySelectorAll('.nav-link, .nav-btn, .social-link');
-
         hamburger.addEventListener('click', () => {
             navMenu.classList.toggle('active');
             hamburger.classList.toggle('hamburger-toggle');
         });
-
-        // Ferme le menu mobile quand on clique sur un lien
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 if (navMenu.classList.contains('active')) {
@@ -41,67 +38,61 @@ function initializeSiteLogic() {
     }
 
     // --- SECTION HÉROS: EFFET PARALLAX ---
+    // ... (votre code parallax reste inchangé) ...
     const heroSection = document.querySelector('.hero-section');
     if (heroSection) {
         const titleBackground = heroSection.querySelector('.hero-title-background');
         const backgroundImage = heroSection.querySelector('.hero-background-image');
         const floorImage = heroSection.querySelector('.hero-floor-image');
         const foregroundImage = heroSection.querySelector('.hero-foreground-image');
-
-        // Vos valeurs de vitesse de déplacement
-        const titleMoveFactor = -1;
-        const backgroundMoveFactor = 4;
-        const floorMoveFactor = 0.5;
-        const foregroundMoveFactor = 2;
-
+        const titleMoveFactor = -1, backgroundMoveFactor = 4, floorMoveFactor = 0.5, foregroundMoveFactor = 2;
         const handleParallax = (x, y) => {
             const newY = Math.max(0, y);
-
             const titleParallax = `translate(${x * titleMoveFactor}px, ${y * titleMoveFactor}px)`;
             const bgParallax = `translate(${x * backgroundMoveFactor}px, ${y * backgroundMoveFactor}px)`;
             const floorParallax = `translate(${x * floorMoveFactor}px, 0px)`;
             const fgParallax = `translate(${x * foregroundMoveFactor}px, ${newY * foregroundMoveFactor}px)`;
-
             if (titleBackground) titleBackground.style.transform = `translate(calc(-50% + var(--hero-title-x, 0px)), calc(-50% + var(--hero-title-y, 0px))) ${titleParallax}`;
             if (backgroundImage) backgroundImage.style.transform = `translate(calc(-50% + var(--hero-bg-x)), calc(-50% + var(--hero-bg-y))) scale(var(--hero-bg-scale)) ${bgParallax}`;
             if (floorImage) floorImage.style.transform = `translate(calc(-50% + var(--hero-floor-x)), var(--hero-floor-y)) scale(var(--hero-floor-scale)) ${floorParallax}`;
             if (foregroundImage) foregroundImage.style.transform = `translate(calc(-50% + var(--hero-fg-x)), var(--hero-fg-y)) scale(var(--hero-fg-scale)) ${fgParallax}`;
         };
-
-        heroSection.addEventListener('mousemove', (e) => {
-            if (window.innerWidth < 768) return;
-            const xPos = (e.clientX - window.innerWidth / 2) / window.innerWidth;
-            const yPos = (e.clientY - window.innerHeight / 2) / window.innerHeight;
-            handleParallax(xPos * 50, yPos * 50);
-        });
-
-        function requestDeviceOrientation() {
-            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-                DeviceOrientationEvent.requestPermission()
-                    .then(permissionState => { if (permissionState === 'granted') { window.addEventListener('deviceorientation', handleOrientation); } })
-                    .catch(console.error);
-            } else { window.addEventListener('deviceorientation', handleOrientation); }
-        }
-
-        if (typeof DeviceOrientationEvent.requestPermission === 'function' && window.innerWidth <= 768) {
-            const p = document.createElement('p');
-            p.innerHTML = 'Cliquez ici pour activer l\'effet parallax';
-            p.style.cssText = 'position:absolute; bottom:20px; z-index:10; color:#555; cursor:pointer; font-size:12px;';
-            heroSection.appendChild(p);
-            p.addEventListener('click', () => { requestDeviceOrientation(); p.style.display = 'none'; }, { once: true });
-        } else {
-            window.addEventListener('deviceorientation', handleOrientation);
-        }
-
-        function handleOrientation(event) {
-            if (window.innerWidth > 768) return;
-            const x = event.gamma;
-            const y = event.beta - 45;
-            handleParallax(x, y);
+        handleParallax(0, 0);
+        if (window.innerWidth > 768) {
+            heroSection.addEventListener('mousemove', (e) => {
+                const xPos = (e.clientX - window.innerWidth / 2) / window.innerWidth;
+                const yPos = (e.clientY - window.innerHeight / 2) / window.innerHeight;
+                handleParallax(xPos * 50, yPos * 50);
+            });
         }
     }
 
+    // =================================================================================
+    // NOUVEAU : LOGIQUE POUR L'ASPECT RATIO DYNAMIQUE DES CARTES DE PROGRAMME
+    // =================================================================================
+    const dynamicImages = document.querySelectorAll('.program-image-dynamic');
+    dynamicImages.forEach(img => {
+        // On s'assure que le code s'exécute même si l'image est déjà en cache
+        if (img.complete) {
+            setAspectRatio(img);
+        } else {
+            // Sinon, on attend que l'image soit chargée
+            img.addEventListener('load', () => setAspectRatio(img));
+        }
+    });
+
+    function setAspectRatio(img) {
+        const wrapper = img.parentElement;
+        if (wrapper && img.naturalHeight > 0) {
+            const ratio = img.naturalWidth / img.naturalHeight;
+            wrapper.style.aspectRatio = ratio;
+        }
+    }
+    // =================================================================================
+
+
     // --- SECTION À PROPOS: CARROUSEL ---
+    // ... (votre code carrousel reste inchangé) ...
     const carousel = document.querySelector('.about-image-carousel');
     if (carousel) {
         const track = carousel.querySelector('.carousel-track');
@@ -142,8 +133,6 @@ function initializeSiteLogic() {
 /**
  * ==================================================================================
  * CHARGEUR DE COMPOSANTS
- * Ce code s'exécute dès que la page est prête. Il charge la navbar et le footer,
- * puis il appelle initializeSiteLogic() pour activer toutes les animations.
  * ==================================================================================
  */
 document.addEventListener('DOMContentLoaded', () => {

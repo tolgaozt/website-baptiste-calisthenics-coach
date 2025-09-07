@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baptiste Auvrey - Calisthenics Coach</title>
+    <title>Baptiste Auvray - Calisthenics Coach</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- LOADER -->
+    <div id="loader-placeholder" data-component="components/preloader.html"></div>
+
+    <!-- FILTRE SVG POUR LA COLORISATION (INVISIBLE) -->
+    <svg width="0" height="0" style="position:absolute; z-index: -1;">
+        <filter id="colorize-filter">
+            <feColorMatrix id="colorize-matrix" type="matrix"
+                values="0.172 0.579 0.058 0 0
+                        0.128 0.429 0.043 0 0
+                        0.049 0.164 0.017 0 0
+                        0 0 0 1 0" />
+        </filter>
+    </svg>
+    <!-- FIN DU FILTRE SVG -->
+
+
     <!-- NAVBAR -->
     <div id="navbar-placeholder" data-component="components/navbar-index.html"></div>
     <!-- END NAVBAR -->
@@ -17,11 +33,11 @@
     <main>
         <!-- SECTION HÉROS AVEC PARALLAX -->
         <section id="hero" class="hero-section">
-            <h1 class="hero-title-background">BAPTISTE AUVREY</h1>
+            <h1 class="hero-title-background">BAPTISTE<br>AUVRAY</h1>
             <img src="images/Hero2.png" alt="Portrait du coach en arrière-plan" class="hero-background-image">
             <img src="images/herofloor.png" alt="Sol texturé" class="hero-floor-image">
             <img src="images/Hero1.png" alt="Coach en pleine figure de calisthenics" class="hero-foreground-image">
-            <p class="hero-subtitle">Callisthenics Guides : From Zero to Hero</p>
+            <p class="hero-subtitle">Calisthenics Programs : From Zero to Hero</p>
         </section>
 
         <!-- SECTION PROGRAMMES -->
@@ -31,19 +47,23 @@
                 <div class="programs-grid">
                     <a href="pages/program1.html" class="program-card-link">
                         <div class="program-card">
-                            <img src="images/program1.png" alt="Couverture du programme 1">
+                            <div class="program-card-image-wrapper">
+                                <img src="images/program1.png" alt="Program 1 Cover" class="program-image-dynamic">
+                            </div>
                             <h3>The Ultimate Guide</h3>
                             <p>The complete guide to mastering calisthenics, from beginner to elite.</p>
-                            <span class="btn-primary">Discover</span>
+                            <span class="btn-primary">Start Your Journey Now</span>
                         </div>
                     </a>
                     
                     <a href="pages/program2.html" class="program-card-link">
                         <div class="program-card">
-                            <img src="images/program2.png" alt="Couverture du programme 2">
+                            <div class="program-card-image-wrapper">
+                                <img src="images/program2.png" alt="Program 2 Cover" class="program-image-dynamic">
+                            </div>
                             <h3>Advanced Skills</h3>
                             <p>Unlock advanced moves and reach a new level of strength.</p>
-                            <span class="btn-primary">Discover</span>
+                            <span class="btn-primary">Start Your Journey Now</span>
                         </div>
                     </a>
                 </div>
@@ -55,8 +75,8 @@
             <div class="container about-container">
                 <div class="about-image-carousel">
                     <div class="carousel-track">
-                        <div class="carousel-slide"><img src="images/About1.png" alt="Baptiste Auvrey 1"></div>
-                        <div class="carousel-slide"><img src="images/About2.png" alt="Baptiste Auvrey 2"></div>
+                        <div class="carousel-slide"><img src="images/About1.png" alt="Baptiste Auvray 1"></div>
+                        <div class="carousel-slide"><img src="images/About2.png" alt="Baptiste Auvray 2"></div>
                     </div>
                     <div class="carousel-nav">
                         <button class="carousel-dot active"></button>
@@ -111,5 +131,64 @@
     <!-- END FOOTER -->
 
     <script src="components.js"></script>
+
+    <!-- SCRIPT POUR LE FILTRE DE COULEUR DYNAMIQUE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            /**
+             * Met à jour le filtre SVG en fonction de la variable CSS --accent-color.
+             */
+            function updateColorFilter() {
+                // 1. Récupérer l'élément de la matrice SVG
+                const colorMatrix = document.getElementById('colorize-matrix');
+                if (!colorMatrix) return;
+
+                // 2. Lire la valeur calculée de la variable CSS --accent-color
+                const style = getComputedStyle(document.documentElement);
+                const hexColor = style.getPropertyValue('--accent-color').trim();
+
+                // 3. Convertir la couleur HEX (#xxxxxx) en valeurs R, G, B (de 0 à 1)
+                let r = 0, g = 0, b = 0;
+                if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hexColor)) {
+                    let c = hexColor.substring(1).split('');
+                    if (c.length === 3) {
+                        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+                    }
+                    c = '0x' + c.join('');
+                    r = ((c >> 16) & 255) / 255;
+                    g = ((c >> 8) & 255) / 255;
+                    b = (c & 255) / 255;
+                }
+
+                // 4. Calculer les nouvelles valeurs pour la matrice du filtre duotone
+                // Ces coefficients préservent la luminosité de l'image originale
+                const rLum = 0.2126;
+                const gLum = 0.7152;
+                const bLum = 0.0722;
+
+                const newValues = [
+                    rLum * r, gLum * r, bLum * r, 0, 0,
+                    rLum * g, gLum * g, bLum * g, 0, 0,
+                    rLum * b, gLum * b, bLum * b, 0, 0,
+                    0, 0, 0, 1, 0
+                ].join(' ');
+
+                // 5. Appliquer les nouvelles valeurs à l'attribut du filtre SVG
+                colorMatrix.setAttribute('values', newValues);
+            }
+
+            // Exécuter la fonction une fois que la page est chargée
+            updateColorFilter();
+        });
+    </script>
+
+    <!-- SCRIPT ÉCRAN DE CHARGEMENT -->
+    <script>
+        window.onload = function() {
+            const loader = document.getElementById('loader');
+            // Ajoute la classe qui déclenche la transition de disparition
+            loader.classList.add('loader-hidden');
+        };
+    </script>
 </body>
 </html>
