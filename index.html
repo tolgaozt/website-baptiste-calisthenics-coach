@@ -111,14 +111,17 @@
         <section id="contact" class="content-section contact-section">
             <div class="container">
                 <h2>Contact me</h2>
-                <!-- La structure du formulaire est déjà parfaite -->
+                <!-- MODIFIÉ : On remet l'email en clair pour une dernière activation -->
                 <form class="contact-form" action="https://formsubmit.co/auvraycalisthenics@gmail.com" method="POST">
                     <input type="text" name="name" placeholder="Your Name" required>
                     <input type="email" name="email" placeholder="Your Email" required>
                     <textarea name="message" placeholder="Your Message" rows="7" required></textarea>
                 
+                    <!-- Le champ de redirection est parfait, on n'y touche pas -->
                     <input type="hidden" name="_next" id="form-redirect">
-                
+                    
+                    <!-- SUPPRIMÉ : On enlève le champ _redirect qui n'est plus nécessaire -->
+                    
                     <input type="hidden" name="_captcha" value="false">
                     <button type="submit" class="btn-primary">Send</button>
                 </form>
