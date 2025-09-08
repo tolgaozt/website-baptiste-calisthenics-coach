@@ -5,7 +5,7 @@
  */
 function initializeSiteLogic() {
 
-    // --- LOGIQUE DE L'ÉCRAN DE CHARGEMENT (PRELOADER) AVEC SÉCURITÉ ---
+    // ... (tout le code du loader, de la navbar, du parallax, etc. reste identique) ...
     const loader = document.getElementById('loader');
     if (loader) {
         let loaderHidden = false;
@@ -18,8 +18,6 @@ function initializeSiteLogic() {
         window.addEventListener('load', hideLoader);
         setTimeout(hideLoader, 2000);
     }
-
-    // --- NAVBAR: EFFET AU DÉFILEMENT & MENU MOBILE ---
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
@@ -41,8 +39,6 @@ function initializeSiteLogic() {
             });
         });
     }
-
-    // --- SECTION HÉROS: EFFET PARALLAX ---
     const heroSection = document.querySelector('.hero-section');
     if (heroSection) {
         const titleBackground = heroSection.querySelector('.hero-title-background');
@@ -70,22 +66,17 @@ function initializeSiteLogic() {
             });
         }
     }
-    
-    // --- LOGIQUE POUR L'ASPECT RATIO DYNAMIQUE DES CARTES DE PROGRAMME ---
     const dynamicImages = document.querySelectorAll('.program-image-dynamic');
     dynamicImages.forEach(img => {
         if (img.complete) { setAspectRatio(img); } 
         else { img.addEventListener('load', () => setAspectRatio(img)); }
     });
-
     function setAspectRatio(img) {
         const wrapper = img.parentElement;
         if (wrapper && img.naturalHeight > 0) {
             wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight;
         }
     }
-
-    // --- LOGIQUE POUR LE FILTRE DE COULEUR DYNAMIQUE ---
     function updateColorFilter() {
         const colorMatrix = document.getElementById('colorize-matrix');
         if (!colorMatrix) return;
@@ -110,18 +101,40 @@ function initializeSiteLogic() {
         colorMatrix.setAttribute('values', newValues);
     }
     updateColorFilter();
-
-    // =================================================================================
-    // CORRECTION DÉFINITIVE DU SCRIPT DE REDIRECTION
-    // =================================================================================
     const redirectInput = document.getElementById('form-redirect');
     if (redirectInput) {
-        // Cette nouvelle méthode est beaucoup plus robuste
         const location = window.location;
         const path = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
         const thankYouUrl = location.origin + path + 'thank-you.html';
-        
         redirectInput.value = thankYouUrl;
+    }
+
+    // ==================================================================
+    // NOUVELLE LOGIQUE POUR LE SÉLECTEUR DE LANGUE (simplifiée et corrigée)
+    // ==================================================================
+    const langSwitcher = document.querySelector('.language-switcher');
+    if (langSwitcher) {
+        const langButtons = langSwitcher.querySelectorAll('button');
+
+        const switchLanguage = (lang) => {
+            // On change simplement la classe sur le body
+            document.body.classList.remove('lang-en', 'lang-fr', 'lang-es');
+            document.body.classList.add(`lang-${lang}`);
+            
+            // On met à jour le bouton actif
+            langButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+        };
+
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                switchLanguage(button.dataset.lang);
+            });
+        });
+        
+        // On initialise en anglais par défaut
+        switchLanguage('en');
     }
 }
 
@@ -131,9 +144,9 @@ function initializeSiteLogic() {
  * ==================================================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
+    // ... (votre chargeur de composants reste inchangé) ...
     const componentPlaceholders = document.querySelectorAll('[data-component]');
     const loadPromises = [];
-
     componentPlaceholders.forEach(placeholder => {
         const path = placeholder.getAttribute('data-component');
         if (path) {
@@ -148,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loadPromises.push(promise);
         }
     });
-
     Promise.all(loadPromises)
         .then(initializeSiteLogic)
         .catch(error => console.error('Error loading components:', error));

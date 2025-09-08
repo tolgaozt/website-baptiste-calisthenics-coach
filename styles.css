@@ -135,7 +135,7 @@ h2 {
 .nav-logo {
     color: #fff;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
 }
 
@@ -307,8 +307,8 @@ footer {
     left: 50%;
     transform: translateX(-50%);
     color: var(--text-secondary);
-    font-size: 1.5rem;
-    font-weight: 300;
+    font-size: 1.7rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -367,27 +367,21 @@ footer {
     padding: 1rem;
     padding-bottom: 2rem;
     height: 100%;
-    
-    /* On utilise flexbox pour un meilleur alignement vertical */
     display: flex;
     flex-direction: column;
 }
 
-/* LE CONTENEUR DE L'IMAGE */
 .program-card-image-wrapper {
     width: 100%;
-    border-radius: 10px; /* C'est lui qui a les coins arrondis */
-    overflow: hidden;    /* Il rogne l'image qui est à l'intérieur */
+    border-radius: 10px;
+    overflow: hidden;
     margin-bottom: 1.5rem;
-    
-    /* La hauteur sera définie par le JS via "aspect-ratio" */
 }
 
-/* L'IMAGE ELLE-MÊME */
 .program-card-image-wrapper img {
     width: 100%;
-    height: 100%; /* L'image remplit complètement son parent */
-    object-fit: contain; /* Mais elle reste entièrement visible */
+    height: 100%;
+    object-fit: contain;
     display: block;
 }
 
@@ -399,30 +393,29 @@ footer {
 .program-card p {
     padding: 0 0.5rem 1.5rem 0.5rem;
     color: var(--text-secondary);
-    flex-grow: 1; /* Permet à la description de pousser le bouton vers le bas */
+    flex-grow: 1;
 }
 
 
 /* --- 4.3 Section À Propos --- */
-/* La section parente a un fond noir */
 .about-section {
-    background-color: var(--bg-dark); /* Fond noir pour voir la carte */
+    background-color: var(--bg-dark);
 }
 
-/* La carte, centrée, avec une largeur maximale */
 .about-card-layout {
-    max-width: 900px;  /* Contrôle la largeur de la carte. Ajustez si besoin. */
-    margin: 0 auto;    /* Centre la carte dans la section */
+    max-width: 900px;
+    margin: 0 auto;
     background-color: var(--bg-light); 
     border-radius: 10px;               
     padding: 2rem;                     
     text-align: center;                
 }
 
-/* Le conteneur de l'image (mobile-first) */
 .about-image {
-    max-width: 250px; /* CONTRÔLE DE LA TAILLE SUR MOBILE. Diminuez pour une image plus petite. */
-    margin: 0 auto 2rem auto; 
+    max-width: 220px;
+    margin: 0 auto 2rem auto;
+    padding: 0.5rem;
+    border-radius: 14px;
 }
 
 .about-image img {
@@ -430,10 +423,8 @@ footer {
     height: auto;
     display: block;
     border-radius: 10px;
-    /* On enlève les propriétés qui cassaient le design */
 }
 
-/* Le texte (mobile-first) */
 .about-text h2 {
     text-align: center; 
     margin-bottom: 1rem;
@@ -448,6 +439,7 @@ footer {
 .about-text p {
     color: var(--text-secondary);
 }
+
 
 /* --- 4.4 Section Témoignages --- */
 .testimonials-grid {
@@ -476,33 +468,28 @@ footer {
 
 
 /* --- 4.5 Section Contact --- */
-/* La section parente a un fond noir pour faire ressortir la carte */
 .contact-section {
     background-color: var(--bg-dark);
 }
 
-/* On transforme le conteneur du formulaire en une carte stylée */
 .contact-form {
     max-width: 600px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    
-    /* NOUVEAU : On ajoute les styles de la carte */
     background-color: var(--bg-light);
     padding: 2rem;
     border-radius: 10px;
 }
 
-/* On ajuste les styles des champs pour qu'ils s'intègrent bien dans la carte */
 .contact-form input,
 .contact-form textarea {
     width: 100%;
     padding: 1rem;
     border: 1px solid #333;
     border-radius: 5px;
-    background-color: var(--bg-dark); /* On garde un fond sombre pour le contraste */
+    background-color: var(--bg-dark);
     color: var(--text-primary);
     font-family: 'Poppins', sans-serif;
 }
@@ -516,8 +503,65 @@ footer {
    5. STYLES SPÉCIFIQUES AUX PAGES DE PROGRAMME
    ========================================================================== */
 
-.program-page-section {
+/* Styles pour le sélecteur de langue */
+.language-switcher {
+    text-align: center;
     padding-top: 120px;
+    padding-bottom: 2rem;
+}
+.language-switcher button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: transparent;
+    border: 2px solid var(--text-secondary);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.language-switcher button:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+.language-switcher button.active {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
+}
+
+/* ==========================================================================
+   NOUVELLE LOGIQUE D'AFFICHAGE DES LANGUES
+   ========================================================================== */
+
+/* Par défaut, on n'affiche que l'anglais */
+body:not(.lang-fr):not(.lang-es) [lang="fr"],
+body:not(.lang-fr):not(.lang-es) [lang="es"] {
+    display: none;
+}
+
+/* Si le body a la classe 'lang-fr', on affiche le français et on cache les autres */
+body.lang-fr [lang="en"],
+body.lang-fr [lang="es"] {
+    display: none;
+}
+body.lang-fr [lang="fr"] {
+    display: inline; /* ou block, ou unset selon le besoin */
+}
+
+/* Si le body a la classe 'lang-es', on affiche l'espagnol et on cache les autres */
+body.lang-es [lang="en"],
+body.lang-es [lang="fr"] {
+    display: none;
+}
+body.lang-es [lang="es"] {
+    display: inline;
+}
+
+.program-page-section {
+    padding-top: 0;
     padding-bottom: 5rem;
 }
 
@@ -571,11 +615,27 @@ footer {
     margin: 0.5rem 0 1.5rem;
 }
 
-.program-price {
+.program-price-container {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.new-price {
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--accent-color);
-    margin-bottom: 2rem;
+}
+
+.old-price-wrapper {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.old-price-wrapper del {
+    text-decoration: line-through;
 }
 
 .program-description {
@@ -630,15 +690,11 @@ footer {
     left: 0;
     width: 100%;
     height: 100dvh;
-    background-color: var(--bg-dark); /* Doit correspondre au fond de votre site */
+    background-color: var(--bg-dark);
     z-index: 9999;
-    
-    /* Centrer le spinner */
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* Transition pour la disparition en fondu */
     opacity: 1;
     visibility: visible;
     transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
@@ -658,7 +714,6 @@ footer {
     animation: spin 1s linear infinite;
 }
 
-/* On déplace le keyframe 'spin' ici */
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -684,7 +739,6 @@ footer {
    ========================================================================== */
 
 @media (max-width: 768px) {
-
     /* --- Styles Généraux & Typographie (Mobile) --- */
     h2 {
         font-size: 2rem;
@@ -739,14 +793,9 @@ footer {
         --hero-bg-scale: 0.85;
         --hero-floor-scale: 2.0;
         --hero-floor-y: -100px; 
-        
-        /* On s'assure que le titre est bien centré sur mobile en réinitialisant la variable */
         --hero-title-top-position: 17%;
         --hero-title-x: 0px; 
-        
         --hero-subtitle-bottom-position: 12vh;
-
-        /* On réinitialise le décalage horizontal des images pour le mobile */
         --hero-bg-x: 0px;
         --hero-floor-x: 0px;
         --hero-fg-x: 0px;
@@ -760,7 +809,7 @@ footer {
     }
     
     .hero-subtitle {
-        font-size: 0.8rem;
+        font-size: 1.2rem;
         width: 100%;
         text-align: center;
         padding: 0 1rem;
@@ -781,6 +830,11 @@ footer {
     .program-details .chromatic-text {
         font-size: 2.5rem;
     }
+
+    /* MODIFIÉ : On centre le prix sur mobile */
+    .program-price-container {
+        justify-content: center;
+    }
 }
 
 @media (min-width: 769px) {
@@ -793,14 +847,13 @@ footer {
     }
 
     .about-image {
-        /* CONTRÔLE DE LA TAILLE SUR PC. Diminuez ce % pour une image plus petite */
         flex-basis: 30%; 
         max-width: none;
         margin: 0;        
     }
 
     .about-text {
-        flex-basis: 70%; /* Le texte prend le reste */
+        flex-basis: 70%;
     }
 
     .about-text h2 {
