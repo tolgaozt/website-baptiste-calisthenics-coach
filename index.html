@@ -112,7 +112,7 @@
             <div class="container">
                 <h2>Contact me</h2>
                 <!-- La structure du formulaire est déjà parfaite -->
-                <form class="contact-form" action="https://formsubmit.co/auvraycalisthenics@gmail.com" method="POST">
+                <form class="contact-form" action="https://formsubmit.co/116f96151137d50da3fae112821fdef0" method="POST">
                     <input type="text" name="name" placeholder="Your Name" required>
                     <input type="email" name="email" placeholder="Your Email" required>
                     <textarea name="message" placeholder="Your Message" rows="7" required></textarea>
@@ -131,79 +131,5 @@
     <!-- END FOOTER -->
 
     <script src="components.js"></script>
-
-    <!-- SCRIPT POUR LE FILTRE DE COULEUR DYNAMIQUE -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            /**
-             * Met à jour le filtre SVG en fonction de la variable CSS --accent-color.
-             */
-            function updateColorFilter() {
-                // 1. Récupérer l'élément de la matrice SVG
-                const colorMatrix = document.getElementById('colorize-matrix');
-                if (!colorMatrix) return;
-
-                // 2. Lire la valeur calculée de la variable CSS --accent-color
-                const style = getComputedStyle(document.documentElement);
-                const hexColor = style.getPropertyValue('--accent-color').trim();
-
-                // 3. Convertir la couleur HEX (#xxxxxx) en valeurs R, G, B (de 0 à 1)
-                let r = 0, g = 0, b = 0;
-                if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hexColor)) {
-                    let c = hexColor.substring(1).split('');
-                    if (c.length === 3) {
-                        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
-                    }
-                    c = '0x' + c.join('');
-                    r = ((c >> 16) & 255) / 255;
-                    g = ((c >> 8) & 255) / 255;
-                    b = (c & 255) / 255;
-                }
-
-                // 4. Calculer les nouvelles valeurs pour la matrice du filtre duotone
-                // Ces coefficients préservent la luminosité de l'image originale
-                const rLum = 0.2126;
-                const gLum = 0.7152;
-                const bLum = 0.0722;
-
-                const newValues = [
-                    rLum * r, gLum * r, bLum * r, 0, 0,
-                    rLum * g, gLum * g, bLum * g, 0, 0,
-                    rLum * b, gLum * b, bLum * b, 0, 0,
-                    0, 0, 0, 1, 0
-                ].join(' ');
-
-                // 5. Appliquer les nouvelles valeurs à l'attribut du filtre SVG
-                colorMatrix.setAttribute('values', newValues);
-            }
-
-            // Exécuter la fonction une fois que la page est chargée
-            updateColorFilter();
-        });
-    </script>
-
-    <!-- NOUVEAU : SCRIPT POUR LA REDIRECTION DYNAMIQUE DU FORMULAIRE -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. On cible le champ caché grâce à son nouvel ID
-            const redirectInput = document.getElementById('form-redirect');
-
-            if (redirectInput) {
-                // 2. On récupère l'URL de la page actuelle (ex: "https://.../index.html")
-                const currentPageUrl = window.location.href;
-                
-                // 3. On construit l'URL de base en enlevant le nom du fichier
-                const baseUrl = currentPageUrl.substring(0, currentPageUrl.lastIndexOf('/') + 1);
-                
-                // 4. On crée l'URL complète pour la page de remerciement
-                const thankYouUrl = baseUrl + 'thank-you.html';
-                
-                // 5. On injecte cette URL dynamique dans le champ du formulaire
-                redirectInput.value = thankYouUrl;
-            }
-        });
-    </script>
-
-    
 </body>
 </html>

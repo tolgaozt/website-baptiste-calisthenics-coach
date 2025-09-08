@@ -85,9 +85,40 @@ function initializeSiteLogic() {
         }
     }
 
-    // ==================================================================
-    // SUPPRIMÉ : Toute la logique pour le carrousel a été enlevée.
-    // ==================================================================
+    // --- LOGIQUE POUR LE FILTRE DE COULEUR DYNAMIQUE ---
+    function updateColorFilter() {
+        const colorMatrix = document.getElementById('colorize-matrix');
+        if (!colorMatrix) return;
+        const style = getComputedStyle(document.documentElement);
+        const hexColor = style.getPropertyValue('--accent-color').trim();
+        let r = 0, g = 0, b = 0;
+        if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hexColor)) {
+            let c = hexColor.substring(1).split('');
+            if (c.length === 3) { c = [c[0], c[0], c[1], c[1], c[2], c[2]]; }
+            c = '0x' + c.join('');
+            r = ((c >> 16) & 255) / 255;
+            g = ((c >> 8) & 255) / 255;
+            b = (c & 255) / 255;
+        }
+        const rLum = 0.2126, gLum = 0.7152, bLum = 0.0722;
+        const newValues = [
+            rLum * r, gLum * r, bLum * r, 0, 0,
+            rLum * g, gLum * g, bLum * g, 0, 0,
+            rLum * b, gLum * b, bLum * b, 0, 0,
+            0, 0, 0, 1, 0
+        ].join(' ');
+        colorMatrix.setAttribute('values', newValues);
+    }
+    updateColorFilter();
+
+    // --- LOGIQUE POUR LA REDIRECTION DYNAMIQUE DU FORMULAIRE ---
+    const redirectInput = document.getElementById('form-redirect');
+    if (redirectInput) {
+        const currentPageUrl = window.location.href;
+        const baseUrl = currentPageUrl.substring(0, currentPageUrl.lastIndexOf('/') + 1);
+        const thankYouUrl = baseUrl + 'thank-you.html';
+        redirectInput.value = thankYouUrl;
+    }
 }
 
 /**
