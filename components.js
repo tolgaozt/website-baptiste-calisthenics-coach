@@ -111,12 +111,16 @@ function initializeSiteLogic() {
     }
     updateColorFilter();
 
-    // --- LOGIQUE POUR LA REDIRECTION DYNAMIQUE DU FORMULAIRE ---
+    // =================================================================================
+    // CORRECTION DÉFINITIVE DU SCRIPT DE REDIRECTION
+    // =================================================================================
     const redirectInput = document.getElementById('form-redirect');
     if (redirectInput) {
-        const currentPageUrl = window.location.href;
-        const baseUrl = currentPageUrl.substring(0, currentPageUrl.lastIndexOf('/') + 1);
-        const thankYouUrl = baseUrl + 'thank-you.html';
+        // Cette nouvelle méthode est beaucoup plus robuste
+        const location = window.location;
+        const path = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
+        const thankYouUrl = location.origin + path + 'thank-you.html';
+        
         redirectInput.value = thankYouUrl;
     }
 }
