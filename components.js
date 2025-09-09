@@ -161,7 +161,6 @@ function initializeSiteLogic() {
         let currentIndex = 0;
         let slideWidth = viewport.offsetWidth;
 
-        // --- Création des points ---
         slides.forEach((_, index) => {
             const dot = document.createElement('button');
             dot.classList.add('carousel-dot');
@@ -171,32 +170,31 @@ function initializeSiteLogic() {
         });
         const dots = Array.from(dotsNav.children);
 
-        // --- Fonction centrale de mise à jour ---
         const moveToSlide = (index) => {
             track.style.transition = 'transform 0.4s ease-out';
             track.style.transform = `translateX(-${index * slideWidth}px)`;
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
             currentIndex = index;
         };
 
-        // --- Écouteurs pour les flèches ---
         nextButton.addEventListener('click', () => moveToSlide((currentIndex + 1) % slides.length));
         prevButton.addEventListener('click', () => moveToSlide((currentIndex - 1 + slides.length) % slides.length));
         
-        // --- Logique de Swipe (unifiée pour souris et tactile) ---
-        let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0;
+        let isDragging = false, hasDragged = false, startPos = 0, currentTranslate = 0, prevTranslate = 0;
 
         const getPositionX = e => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
 
         const dragStart = (e) => {
             isDragging = true;
+            hasDragged = false; // On réinitialise le "drapeau" à chaque début de contact
             startPos = getPositionX(e);
             prevTranslate = -currentIndex * slideWidth;
             track.style.transition = 'none';
         };
-
+        
         const dragging = (e) => {
             if (!isDragging) return;
+            hasDragged = true; // Si le doigt bouge, on le note
             const currentPosition = getPositionX(e);
             currentTranslate = prevTranslate + currentPosition - startPos;
             track.style.transform = `translateX(${currentTranslate}px)`;
@@ -205,26 +203,31 @@ function initializeSiteLogic() {
         const dragEnd = () => {
             if (!isDragging) return;
             isDragging = false;
+            
+            // LA CORRECTION DÉFINITIVE : Si on n'a pas glissé (c'était un simple tap), on ne fait rien.
+            if (!hasDragged) {
+                // On réactive juste la transition au cas où, et on arrête tout.
+                track.style.transition = 'transform 0.4s ease-out';
+                return;
+            }
+
             const movedBy = currentTranslate - prevTranslate;
 
-            if (movedBy < -100 && currentIndex < slides.length - 1) currentIndex++;
-            if (movedBy > 100 && currentIndex > 0) currentIndex--;
+            if (movedBy < -50 && currentIndex < slides.length - 1) currentIndex++;
+            if (movedBy > 50 && currentIndex > 0) currentIndex--;
 
             moveToSlide(currentIndex);
         };
-
+        
         track.addEventListener('mousedown', dragStart);
         track.addEventListener('touchstart', dragStart, { passive: true });
-
         track.addEventListener('mousemove', dragging);
         track.addEventListener('touchmove', dragging, { passive: true });
-
         document.addEventListener('mouseup', dragEnd);
         track.addEventListener('touchend', dragEnd);
         track.addEventListener('mouseleave', dragEnd);
         track.addEventListener('touchcancel', dragEnd);
 
-        // --- Gestion du redimensionnement ---
         window.addEventListener('resize', () => {
             slideWidth = viewport.offsetWidth;
             track.style.transition = 'none';
