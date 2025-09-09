@@ -701,7 +701,11 @@ footer {
 .language-switcher {
     text-align: center;
     margin-bottom: 2rem;
+    padding-top: 100px; /* Espace pour laisser passer la navbar fixe */
 }
+
+/* On retire l'ancien positionnement absolu pour la page d'accueil */
+/* .home-switcher { ... } */
 
 .language-switcher button {
     display: inline-flex;
@@ -745,7 +749,6 @@ body:not(.lang-fr):not(.lang-es) [lang="fr"],
 body:not(.lang-fr):not(.lang-es) [lang="es"] {
     display: none;
 }
-
 /* Si le body a la classe 'lang-fr', on affiche le français et on cache les autres */
 body.lang-fr [lang="en"],
 body.lang-fr [lang="es"] {
@@ -754,7 +757,6 @@ body.lang-fr [lang="es"] {
 body.lang-fr [lang="fr"] {
     display: inline;
 }
-
 /* Si le body a la classe 'lang-es', on affiche l'espagnol et on cache les autres */
 body.lang-es [lang="en"],
 body.lang-es [lang="fr"] {
@@ -765,7 +767,7 @@ body.lang-es [lang="es"] {
 }
 
 .program-page-section {
-    padding-top: 5rem;
+    padding-top: 2rem; /* On réduit le padding ici car le switcher en a déjà */
     padding-bottom: 5rem;
 }
 

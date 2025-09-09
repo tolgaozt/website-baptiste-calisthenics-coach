@@ -113,13 +113,10 @@ function initializeSiteLogic() {
     // --- LOGIQUE POUR LA REDIRECTION DYNAMIQUE DU FORMULAIRE ---
     const redirectInput = document.getElementById('form-redirect');
     if (redirectInput) {
-        // On s'assure que le champ a le bon nom pour Web3Forms
         redirectInput.name = 'redirect';
-        
         const location = window.location;
         const path = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
         const thankYouUrl = location.origin + path + 'thank-you.html';
-        
         redirectInput.value = thankYouUrl;
     }
 
@@ -127,18 +124,12 @@ function initializeSiteLogic() {
     const langSwitcher = document.querySelector('.language-switcher');
     if (langSwitcher) {
         const langButtons = langSwitcher.querySelectorAll('button');
-        
         const switchLanguage = (lang) => {
-            // Change la classe sur le body (gère l'affichage des <span> via CSS)
             document.body.classList.remove('lang-en', 'lang-fr', 'lang-es');
             document.body.classList.add(`lang-${lang}`);
-            
-            // Met à jour le bouton actif
             langButtons.forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
-
-            // NOUVEAU : Met à jour les placeholders du formulaire
             const formInputs = document.querySelectorAll('[data-lang-en]');
             formInputs.forEach(input => {
                 const placeholderText = input.getAttribute(`data-lang-${lang}`);
@@ -147,13 +138,11 @@ function initializeSiteLogic() {
                 }
             });
         };
-
         langButtons.forEach(button => {
             button.addEventListener('click', () => {
                 switchLanguage(button.dataset.lang);
             });
         });
-        
         switchLanguage('en');
     }
 
@@ -167,91 +156,85 @@ function initializeSiteLogic() {
         const nextButton = testimonialCarousel.querySelector('#testimonial-next');
         const prevButton = testimonialCarousel.querySelector('#testimonial-prev');
         const dotsNav = testimonialCarousel.querySelector('#testimonial-dots');
-        
-        // CORRECTION : On mesure le viewport, pas le slide, pour une largeur fiable.
         const viewport = testimonialCarousel.querySelector('.carousel-viewport');
+
         let slideWidth = viewport.getBoundingClientRect().width;
         let currentIndex = 0;
 
-        // --- Création des points de navigation ---
-        slides.forEach((slide, index) => {
+        // --- Création des points ---
+        slides.forEach((_, index) => {
             const dot = document.createElement('button');
             dot.classList.add('carousel-dot');
             if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                currentIndex = index;
-                updateCarousel();
-            });
+            dot.addEventListener('click', () => moveToSlide(index));
             dotsNav.appendChild(dot);
         });
         const dots = Array.from(dotsNav.children);
 
-        // --- Fonction centrale pour mettre à jour le carrousel ---
-        const updateCarousel = () => {
-            track.style.transition = 'transform 0.5s ease-in-out'; // On s'assure que l'animation est active
-            track.style.transform = 'translateX(-' + slideWidth * currentIndex + 'px)';
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
+        // --- Fonction centrale de mise à jour ---
+        const moveToSlide = (index) => {
+            currentIndex = index;
+            track.style.transition = 'transform 0.5s ease-in-out';
+            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
         };
 
-        // --- Logique pour les flèches ---
+        // --- Écouteurs pour les flèches ---
         nextButton.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % slides.length;
-            updateCarousel();
+            moveToSlide((currentIndex + 1) % slides.length);
         });
         prevButton.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            updateCarousel();
+            moveToSlide((currentIndex - 1 + slides.length) % slides.length);
         });
 
-        // --- NOUVEAU : Logique pour le swipe (drag & scroll) ---
-        let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
+        // --- Logique de Swipe (Drag & Scroll) ---
+        let isDragging = false, startPos = 0, currentTranslate = 0;
 
-        const getPositionX = (e) => e.touches[0].clientX;
+        const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
         
-        const touchStart = (e) => {
-            startPos = getPositionX(e);
+        const dragStart = (e) => {
             isDragging = true;
-            prevTranslate = -currentIndex * slideWidth;
-            track.style.transition = 'none'; // On désactive l'animation pendant le drag
+            startPos = getPositionX(e);
+            track.style.transition = 'none'; // Désactive l'animation pendant le drag
         };
-
-        const touchMove = (e) => {
+        
+        const dragging = (e) => {
             if (!isDragging) return;
             const currentPosition = getPositionX(e);
-            currentTranslate = prevTranslate + currentPosition - startPos;
+            const diff = currentPosition - startPos;
+            currentTranslate = -currentIndex * slideWidth + diff;
             track.style.transform = `translateX(${currentTranslate}px)`;
         };
 
-        const touchEnd = () => {
+        const dragEnd = (e) => {
             if (!isDragging) return;
             isDragging = false;
-            const movedBy = currentTranslate - prevTranslate;
+            
+            const movedBy = -currentIndex * slideWidth - currentTranslate;
 
-            // On ne change de slide que si le swipe est significatif (plus de 50px)
-            if (movedBy < -50 && currentIndex < slides.length - 1) {
-                currentIndex++;
-            }
-            if (movedBy > 50 && currentIndex > 0) {
-                currentIndex--;
-            }
-            updateCarousel(); // On "snap" à la bonne position avec l'animation
+            // Si le swipe est assez grand, on change de slide
+            if (movedBy < -50 && currentIndex < slides.length - 1) currentIndex++;
+            if (movedBy > 50 && currentIndex > 0) currentIndex--;
+
+            moveToSlide(currentIndex); // "Snap" au bon slide
         };
+        
+        // On ajoute les écouteurs pour la souris (PC) et le tactile (Mobile)
+        track.addEventListener('mousedown', dragStart);
+        track.addEventListener('mousemove', dragging);
+        document.addEventListener('mouseup', dragEnd); // Écouteur sur le document pour ne pas perdre le "lâcher"
+        track.addEventListener('mouseleave', dragEnd);
+        
+        track.addEventListener('touchstart', dragStart, { passive: true });
+        track.addEventListener('touchmove', dragging, { passive: true });
+        track.addEventListener('touchend', dragEnd);
+        track.addEventListener('touchcancel', dragEnd);
 
-        track.addEventListener('touchstart', touchStart, { passive: true });
-        track.addEventListener('touchmove', touchMove, { passive: true });
-        track.addEventListener('touchend', touchEnd);
-        track.addEventListener('touchcancel', touchEnd); // Au cas où le doigt sort de l'écran
-
-        // --- Gestion du redimensionnement de la fenêtre ---
+        // --- Gestion du redimensionnement ---
         window.addEventListener('resize', () => {
             slideWidth = viewport.getBoundingClientRect().width;
-            track.style.transition = 'none'; // On désactive l'animation pour le repositionnement instantané
-            updateCarousel();
+            track.style.transition = 'none';
+            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
         });
     }
 }
