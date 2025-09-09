@@ -785,12 +785,54 @@ body.lang-es [lang="es"] {
 
 .program-image {
     flex: 1;
+    position: relative;
 }
 
 .program-image img {
     width: 100%;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.play-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    pointer-events: none; /* TRÈS IMPORTANT : Laisse passer les clics vers l'image en dessous */
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.play-indicator.is-hidden {
+    opacity: 0;
+    animation: none; /* On arrête l'animation quand il est caché */
+}
+
+/* NOUVEAU : On ajoute l'animation de pulsation */
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.95);
+        box-shadow: 0 0 0 0 rgba(250, 202, 21, 0.7);
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 0 10px rgba(250, 202, 21, 0);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.95);
+        box-shadow: 0 0 0 0 rgba(250, 202, 21, 0);
+    }
 }
 
 .program-details {

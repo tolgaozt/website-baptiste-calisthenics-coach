@@ -237,15 +237,19 @@ function initializeSiteLogic() {
     // ==================================================================
     const coverImage = document.querySelector('.program-cover-image');
     if (coverImage) {
-        // On stocke les deux sources au chargement pour éviter les problèmes d'URL relative/absolue
         const originalSrc = coverImage.src;
         const gifSrc = coverImage.dataset.gifSrc;
+        const playIndicator = document.querySelector('.play-indicator');
 
         coverImage.addEventListener('click', () => {
             if (coverImage.src === originalSrc) {
+                // On passe au GIF et on CACHE le bouton
                 coverImage.src = gifSrc;
+                if (playIndicator) playIndicator.classList.add('is-hidden');
             } else {
+                // On revient à l'image et on AFFICHE le bouton
                 coverImage.src = originalSrc;
+                if (playIndicator) playIndicator.classList.remove('is-hidden');
             }
         });
     }
