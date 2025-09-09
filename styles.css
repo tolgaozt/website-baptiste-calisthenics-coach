@@ -584,11 +584,16 @@ footer {
 .carousel-viewport {
     overflow: hidden;
     border-radius: 10px;
+    cursor: grab;
 }
 
 .carousel-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
+}
+
+.carousel-track.is-dragging {
+    cursor: grabbing; /* Curseur "main fermée" */
 }
 
 /* Le style de chaque slide, LA CLÉ pour éviter les sauts */
@@ -785,6 +790,7 @@ body.lang-es [lang="es"] {
 .program-image img {
     width: 100%;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .program-details {

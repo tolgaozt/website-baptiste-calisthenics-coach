@@ -158,8 +158,8 @@ function initializeSiteLogic() {
         const dotsNav = testimonialCarousel.querySelector('#testimonial-dots');
         const viewport = testimonialCarousel.querySelector('.carousel-viewport');
 
-        let slideWidth = viewport.getBoundingClientRect().width;
         let currentIndex = 0;
+        let slideWidth = viewport.offsetWidth;
 
         // --- Création des points ---
         slides.forEach((_, index) => {
@@ -173,68 +173,80 @@ function initializeSiteLogic() {
 
         // --- Fonction centrale de mise à jour ---
         const moveToSlide = (index) => {
+            track.style.transition = 'transform 0.4s ease-out';
+            track.style.transform = `translateX(-${index * slideWidth}px)`;
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
             currentIndex = index;
-            track.style.transition = 'transform 0.5s ease-in-out';
-            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
         };
 
         // --- Écouteurs pour les flèches ---
-        nextButton.addEventListener('click', () => {
-            moveToSlide((currentIndex + 1) % slides.length);
-        });
-        prevButton.addEventListener('click', () => {
-            moveToSlide((currentIndex - 1 + slides.length) % slides.length);
-        });
-
-        // --- Logique de Swipe (Drag & Scroll) ---
-        let isDragging = false, startPos = 0, currentTranslate = 0;
-
-        const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        nextButton.addEventListener('click', () => moveToSlide((currentIndex + 1) % slides.length));
+        prevButton.addEventListener('click', () => moveToSlide((currentIndex - 1 + slides.length) % slides.length));
         
+        // --- Logique de Swipe (unifiée pour souris et tactile) ---
+        let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0;
+
+        const getPositionX = e => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+
         const dragStart = (e) => {
             isDragging = true;
             startPos = getPositionX(e);
-            track.style.transition = 'none'; // Désactive l'animation pendant le drag
+            prevTranslate = -currentIndex * slideWidth;
+            track.style.transition = 'none';
         };
-        
+
         const dragging = (e) => {
             if (!isDragging) return;
             const currentPosition = getPositionX(e);
-            const diff = currentPosition - startPos;
-            currentTranslate = -currentIndex * slideWidth + diff;
+            currentTranslate = prevTranslate + currentPosition - startPos;
             track.style.transform = `translateX(${currentTranslate}px)`;
         };
 
-        const dragEnd = (e) => {
+        const dragEnd = () => {
             if (!isDragging) return;
             isDragging = false;
-            
-            const movedBy = -currentIndex * slideWidth - currentTranslate;
+            const movedBy = currentTranslate - prevTranslate;
 
-            // Si le swipe est assez grand, on change de slide
-            if (movedBy < -50 && currentIndex < slides.length - 1) currentIndex++;
-            if (movedBy > 50 && currentIndex > 0) currentIndex--;
+            if (movedBy < -100 && currentIndex < slides.length - 1) currentIndex++;
+            if (movedBy > 100 && currentIndex > 0) currentIndex--;
 
-            moveToSlide(currentIndex); // "Snap" au bon slide
+            moveToSlide(currentIndex);
         };
-        
-        // On ajoute les écouteurs pour la souris (PC) et le tactile (Mobile)
+
         track.addEventListener('mousedown', dragStart);
-        track.addEventListener('mousemove', dragging);
-        document.addEventListener('mouseup', dragEnd); // Écouteur sur le document pour ne pas perdre le "lâcher"
-        track.addEventListener('mouseleave', dragEnd);
-        
         track.addEventListener('touchstart', dragStart, { passive: true });
+
+        track.addEventListener('mousemove', dragging);
         track.addEventListener('touchmove', dragging, { passive: true });
+
+        document.addEventListener('mouseup', dragEnd);
         track.addEventListener('touchend', dragEnd);
+        track.addEventListener('mouseleave', dragEnd);
         track.addEventListener('touchcancel', dragEnd);
 
         // --- Gestion du redimensionnement ---
         window.addEventListener('resize', () => {
-            slideWidth = viewport.getBoundingClientRect().width;
+            slideWidth = viewport.offsetWidth;
             track.style.transition = 'none';
-            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+            moveToSlide(currentIndex);
+        });
+    }
+
+    // ==================================================================
+    // NOUVEAU : LOGIQUE POUR L'ÉCHANGE IMAGE/GIF
+    // ==================================================================
+    const coverImage = document.querySelector('.program-cover-image');
+    if (coverImage) {
+        // On stocke les deux sources au chargement pour éviter les problèmes d'URL relative/absolue
+        const originalSrc = coverImage.src;
+        const gifSrc = coverImage.dataset.gifSrc;
+
+        coverImage.addEventListener('click', () => {
+            if (coverImage.src === originalSrc) {
+                coverImage.src = gifSrc;
+            } else {
+                coverImage.src = originalSrc;
+            }
         });
     }
 }
