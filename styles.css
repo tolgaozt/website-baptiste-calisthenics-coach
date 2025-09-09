@@ -1081,6 +1081,13 @@ body.lang-es [lang="es"] {
         text-align: center;
     }
 
+    .program-image {
+        flex: initial; /* Annule l'étirement vertical */
+        width: 100%;
+        max-width: 400px; /* Limite la largeur sur les tablettes */
+        margin-bottom: 2rem; /* Ajoute un espace sous l'image */
+    }
+
     .program-details .chromatic-text {
         font-size: 2.5rem;
     }
