@@ -13,19 +13,6 @@
     <!-- LOADER -->
     <div id="loader-placeholder" data-component="components/preloader.html"></div>
 
-    <!-- FILTRE SVG POUR LA COLORISATION (INVISIBLE) -->
-    <svg width="0" height="0" style="position:absolute; z-index: -1;">
-        <filter id="colorize-filter">
-            <feColorMatrix id="colorize-matrix" type="matrix"
-                values="0.172 0.579 0.058 0 0
-                        0.128 0.429 0.043 0 0
-                        0.049 0.164 0.017 0 0
-                        0 0 0 1 0" />
-        </filter>
-    </svg>
-    <!-- FIN DU FILTRE SVG -->
-
-
     <!-- NAVBAR -->
     <div id="navbar-placeholder" data-component="components/navbar-index.html"></div>
     <!-- END NAVBAR -->
@@ -37,22 +24,80 @@
             <img src="images/Hero2.png" alt="Portrait du coach en arrière-plan" class="hero-background-image">
             <img src="images/herofloor.png" alt="Sol texturé" class="hero-floor-image">
             <img src="images/Hero1.png" alt="Coach en pleine figure de calisthenics" class="hero-foreground-image">
-            <p class="hero-subtitle">Calisthenics Programs : <br> From Zero to Hero</p>
+            <p class="hero-subtitle">
+                <span lang="en">Calisthenics Programs : <br> From Zero to Hero</span>
+                <span lang="fr">Programmes de Calisthenics : <br> De Zéro à Héros</span>
+                <span lang="es">Programas de Calistenia : <br> De Cero a Héroe</span>
+            </p>
         </section>
 
         <!-- SECTION PROGRAMMES -->
         <section id="programs" class="content-section">
             <div class="container">
-                <h2>My Programs</h2>
+                <!-- SÉLECTEUR DE LANGUE DÉPLACÉ ICI -->
+                <div class="language-switcher">
+                    <button data-lang="en" class="active"><img src="images/flags/gb.svg" alt="English"> EN</button>
+                    <button data-lang="fr"><img src="images/flags/fr.svg" alt="Français"> FR</button>
+                    <button data-lang="es"><img src="images/flags/es.svg" alt="Español"> ES</button>
+                </div>
+
+                <h2>
+                    <span lang="en">My Programs</span>
+                    <span lang="fr">Mes Programmes</span>
+                    <span lang="es">Mis Programas</span>
+                </h2>
+
+                <a href="#" class="bundle-link">
+                    <div class="bundle-card">
+                        <div class="bundle-header">
+                            <span lang="en">GET BOTH FOR <br><span class="highlight-discount">35% OFF</span> NOW!</span>
+                            <span lang="fr">LES DEUX POUR <br><span class="highlight-discount">35% DE RÉDUC</span> MAINTENANT !</span>
+                            <span lang="es">¡LOS DOS CON UN <br><span class="highlight-discount">35% DE DESCUENTO</span> AHORA!</span>
+                        </div>
+                        <div class="bundle-content">
+                            <img src="images/program1.png" alt="Planche 90 Program" class="bundle-image">
+                            <span class="bundle-operator">+</span>
+                            <img src="images/program2.png" alt="Handstand Push-ups Program" class="bundle-image">
+                            <div class="bundle-result">
+                                <span class="bundle-operator-equal">=</span>
+                                <span class="bundle-text-mobile">
+                                    <span lang="en">BOTH NOW FOR</span>
+                                    <span lang="fr">LES DEUX POUR</span>
+                                    <span lang="es">AMBOS POR</span>
+                                </span>
+                                <div class="bundle-price-container">
+                                    <span class="bundle-new-price">45€</span>
+                                    <span class="bundle-old-price">
+                                        <span lang="en">was <del>69.98€</del></span>
+                                        <span lang="fr">au lieu de <del>69.98€</del></span>
+                                        <span lang="es">antes <del>69.98€</del></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
                 <div class="programs-grid">
                     <a href="pages/program1.html" class="program-card-link">
                         <div class="program-card">
                             <div class="program-card-image-wrapper">
                                 <img src="images/program1.png" alt="Program 1 Cover" class="program-image-dynamic">
                             </div>
-                            <h3>Unlock your Planche 90°!</h3>
-                            <p>The Step-by-step System to Master The Planche 90° effectively.</p>
-                            <span class="btn-primary">Get It Now!</span>
+                            <h3>
+                                <span lang="en">Unlock your Planche 90°!</span>
+                                <span lang="fr">Débloque ta Planche 90° !</span>
+                                <span lang="es">¡Desbloquea tu Planche 90°!</span>
+                            </h3>
+                            <p>
+                                <span lang="en">The Step-by-step System to Master The Planche 90° effectively.</span>
+                                <span lang="fr">Le système étape par étape pour maîtriser la Planche 90° efficacement.</span>
+                                <span lang="es">El sistema paso a paso para dominar la Planche 90° de manera efectiva.</span>
+                            </p>
+                            <span class="btn-primary">
+                                <span lang="en">Get It Now!</span>
+                                <span lang="fr">Obtenir maintenant !</span>
+                                <span lang="es">¡Consíguelo ahora!</span>
+                            </span>
                         </div>
                     </a>
                     
@@ -61,9 +106,21 @@
                             <div class="program-card-image-wrapper">
                                 <img src="images/program2.png" alt="Program 2 Cover" class="program-image-dynamic">
                             </div>
-                            <h3>Unlock Your Handstand Push-Ups!</h3>
-                            <p>The proven System to effectively go from beginner to Handstand Push-ups Master.</p>
-                            <span class="btn-primary">Get It Now!</span>
+                            <h3>
+                                <span lang="en">Unlock Your Handstand Push-Ups!</span>
+                                <span lang="fr">Débloque tes Handstand Push-Ups !</span>
+                                <span lang="es">¡Desbloquea tus Handstand Push-Ups!</span>
+                            </h3>
+                            <p>
+                                <span lang="en">The proven System to effectively go from beginner to Handstand Push-ups Master.</span>
+                                <span lang="fr">Le système éprouvé pour passer efficacement de débutant à maître des Handstand Push-ups.</span>
+                                <span lang="es">El sistema probado para pasar de principiante a maestro de los Handstand Push-ups de manera efectiva.</span>
+                            </p>
+                            <span class="btn-primary">
+                                <span lang="en">Get It Now!</span>
+                                <span lang="fr">Obtenir maintenant !</span>
+                                <span lang="es">¡Consíguelo ahora!</span>
+                            </span>
                         </div>
                     </a>
                 </div>
@@ -78,9 +135,17 @@
                         <img src="images/About1.png" alt="Baptiste Auvray">
                     </div>
                     <div class="about-text">
-                        <h2>About Me</h2>
+                        <h2>
+                            <span lang="en">Who Am I?</span>
+                            <span lang="fr">Qui Suis-Je ?</span>
+                            <span lang="es">¿Quién soy?</span>
+                        </h2>
                         <h3>RISE FROM NOTHING</h3>
-                        <p>Passionate about movement and self-improvement, I've dedicated years to mastering the art of calisthenics. My goal is to share this passion with you and provide you with the tools to transform your physique and mindset. Together, we will build the best version of yourself.</p>
+                        <p>
+                            <span lang="en">I’m Baptiste Auvray, born on November 22, 2002, in Blois, a small town in the heart of France.<br>I started calisthenics in 2020, after three years spent building my strength from the ground up.<br><br>Over time, I learned, progressed, and unlocked key movements such as the handstand, muscle-up, handstand push-ups, front lever, the 90° planche, and the full planche.<br><br>Little by little, I developed my own style by creating unique flows and combinations that reflect my vision and approach to this sport.<br><br>Driven by the desire to share my journey, I designed two complete training programs, accessible to different levels. Their goal : to guide you step by step toward mastering two of the most iconic calisthenics movements : the handstand push-up and the 90° planche.<br>Join this incredible adventure with me and unlock your movements!</span>
+                            <span lang="fr">Je suis Baptiste Auvray, né le 22 novembre 2002 à Blois, une petite ville au cœur de la France.<br>J’ai commencé la calisthénie en 2020, après trois années passées à construire ma force à partir de rien.<br><br>Au fil du temps, j’ai appris, progressé et débloqué des mouvements clés comme le handstand, le muscle-up, les handstand push-ups, le front lever, la planche à 90° et la planche.<br><br>Peu à peu, j’ai développé mon propre style en créant des enchaînements et des combinaisons uniques, qui reflètent ma vision et mon approche de ce sport.<br><br>Animé par l’envie de partager mon expérience, j’ai conçu deux programmes d’entraînement complets, accessibles à différents niveaux. Leur objectif : vous guider pas à pas vers la maîtrise de deux mouvements emblématiques de la calisthénie : les handstand push-ups et la planche 90°.<br>Rejoignez cette incroyable aventure avec moi et débloquez vos mouvements !</span>
+                            <span lang="es">Soy Baptiste Auvray, nacido el 22 de noviembre de 2002 en Blois, una pequeña ciudad en el corazón de Francia.<br>Empecé la calistenia en 2020, después de tres años dedicados a construir mi fuerza desde cero.<br><br>Con el tiempo, aprendí, progresé y desbloqueé movimientos clave como el handstand, el muscle-up, los handstand push-ups, el front lever, la plancha 90° y la plancha completa.<br><br>Poco a poco, desarrollé mi propio estilo creando secuencias y combinaciones únicas que reflejan mi visión y mi enfoque de este deporte.<br><br>Impulsado por el deseo de compartir mi experiencia, diseñé dos programas de entrenamiento completos, accesibles para diferentes niveles. Su objetivo: guiarte paso a paso hacia el dominio de dos de los movimientos más emblemáticos de la calistenia: los handstand push-ups y la plancha 90°.<br>¡Únete a esta increíble aventura conmigo y desbloquea tus movimientos!</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -89,20 +154,39 @@
         <!-- SECTION TÉMOIGNAGES -->
         <section id="testimonials" class="content-section">
             <div class="container">
-                <h2>What they think</h2>
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <p>"The program completely changed my vision of training. The results are incredible. I never thought I'd reach this level."</p>
-                        <span>- Alex R.</span>
+                <div class="satisfied-clients">
+                    <span class="client-count">150+</span>
+                    <span class="client-text">
+                        <span lang="en">Satisfied Clients</span>
+                        <span lang="fr">Clients Satisfaits</span>
+                        <span lang="es">Clientes Satisfechos</span>
+                    </span>
+                </div>
+                <h2>
+                    <span lang="en">What they think</span>
+                    <span lang="fr">Ce qu'ils en pensent</span>
+                    <span lang="es">Lo que opinan</span>
+                </h2>
+            
+                <!-- NOUVEAU : La structure du carrousel de témoignages -->
+                <div class="testimonial-carousel">
+                    <div class="carousel-viewport">
+                        <div class="carousel-track">
+                            <!-- On insère les 7 images ici -->
+                            <div class="carousel-slide"><img src="images/testimonials/1.jpg" alt="Testimonial 1"></div>
+                            <div class="carousel-slide"><img src="images/testimonials/2.jpg" alt="Testimonial 2"></div>
+                            <div class="carousel-slide"><img src="images/testimonials/3.jpg" alt="Testimonial 3"></div>
+                            <div class="carousel-slide"><img src="images/testimonials/4.jpg" alt="Testimonial 4"></div>
+                            <div class="carousel-slide"><img src="images/testimonials/5.jpg" alt="Testimonial 5"></div>
+                            <div class="carousel-slide"><img src="images/testimonials/6.jpg" alt="Testimonial 6"></div>
+                            <div class="carousel-slide"><img src="images/testimonials/7.jpg" alt="Testimonial 7"></div>
+                        </div>
                     </div>
-                    <div class="testimonial-card">
-                        <p>"Clear, progressive, and incredibly motivating. Baptiste is an exceptional coach who knows how to push you to exceed your limits."</p>
-                        <span>- Julia M.</span>
-                    </div>
-                     <div class="testimonial-card">
-                        <p>"I finally achieved my first planche thanks to this guide. It's more than a program, it's a true training system."</p>
-                        <span>- Léo G.</span>
-                    </div>
+                    <!-- Flèches de navigation -->
+                    <button class="carousel-arrow prev-arrow" id="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-arrow next-arrow" id="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+                    <!-- Points de navigation (seront générés par le JS) -->
+                    <div class="carousel-dots" id="testimonial-dots"></div>
                 </div>
             </div>
         </section>
@@ -110,20 +194,49 @@
         <!-- SECTION CONTACT -->
         <section id="contact" class="content-section contact-section">
             <div class="container">
-                <h2>Contact me</h2>
-                <!-- MODIFIÉ : On remet l'email en clair pour une dernière activation -->
-                <form class="contact-form" action="https://formsubmit.co/auvraycalisthenics@gmail.com" method="POST">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <textarea name="message" placeholder="Your Message" rows="7" required></textarea>
-                
-                    <!-- Le champ de redirection est parfait, on n'y touche pas -->
-                    <input type="hidden" name="_next" id="form-redirect">
-
-                    <!-- SUPPRIMÉ : On enlève le champ _redirect qui n'est plus nécessaire -->
-
-                    <input type="hidden" name="_captcha" value="false">
-                    <button type="submit" class="btn-primary">Send</button>
+                <h2>
+                    <span lang="en">Contact me</span>
+                    <span lang="fr">Contactez-moi</span>
+                    <span lang="es">Contáctame</span>
+                </h2>
+                <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="d3faa747-fa0d-4da6-8356-0ecba53af192">
+                    <!-- MODIFIÉ : On ajoute les data-attributes pour les traductions -->
+                    <input 
+                        type="text" 
+                        name="name" 
+                        placeholder="Your Name" 
+                        data-lang-en="Your Name"
+                        data-lang-fr="Votre Nom"
+                        data-lang-es="Tu Nombre"
+                        required
+                    >
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Your Email" 
+                        data-lang-en="Your Email"
+                        data-lang-fr="Votre Email"
+                        data-lang-es="Tu Correo Electrónico"
+                        required
+                    >
+                    <textarea 
+                        name="message" 
+                        placeholder="Your Message" 
+                        rows="7"
+                        data-lang-en="Your Message"
+                        data-lang-fr="Votre Message"
+                        data-lang-es="Tu Mensaje"
+                        required
+                    ></textarea>
+                        
+                    <input type="hidden" name="redirect" id="form-redirect">
+                        
+                    <button type="submit" class="btn-primary">
+                        <span lang="en">Send</span>
+                        <span lang="fr">Envoyer</span>
+                        <span lang="es">Enviar</span>
+                    </button>
                 </form>
             </div>
         </section>

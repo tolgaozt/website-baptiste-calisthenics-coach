@@ -5,7 +5,7 @@
  */
 function initializeSiteLogic() {
 
-    // ... (tout le code du loader, de la navbar, du parallax, etc. reste identique) ...
+    // --- LOGIQUE DE L'ÉCRAN DE CHARGEMENT (PRELOADER) AVEC SÉCURITÉ ---
     const loader = document.getElementById('loader');
     if (loader) {
         let loaderHidden = false;
@@ -18,6 +18,8 @@ function initializeSiteLogic() {
         window.addEventListener('load', hideLoader);
         setTimeout(hideLoader, 2000);
     }
+
+    // --- NAVBAR: EFFET AU DÉFILEMENT & MENU MOBILE ---
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
@@ -39,6 +41,8 @@ function initializeSiteLogic() {
             });
         });
     }
+
+    // --- SECTION HÉROS: EFFET PARALLAX ---
     const heroSection = document.querySelector('.hero-section');
     if (heroSection) {
         const titleBackground = heroSection.querySelector('.hero-title-background');
@@ -66,6 +70,8 @@ function initializeSiteLogic() {
             });
         }
     }
+    
+    // --- LOGIQUE POUR L'ASPECT RATIO DYNAMIQUE DES CARTES DE PROGRAMME ---
     const dynamicImages = document.querySelectorAll('.program-image-dynamic');
     dynamicImages.forEach(img => {
         if (img.complete) { setAspectRatio(img); } 
@@ -77,6 +83,8 @@ function initializeSiteLogic() {
             wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight;
         }
     }
+
+    // --- LOGIQUE POUR LE FILTRE DE COULEUR DYNAMIQUE ---
     function updateColorFilter() {
         const colorMatrix = document.getElementById('colorize-matrix');
         if (!colorMatrix) return;
@@ -101,29 +109,42 @@ function initializeSiteLogic() {
         colorMatrix.setAttribute('values', newValues);
     }
     updateColorFilter();
+
+    // --- LOGIQUE POUR LA REDIRECTION DYNAMIQUE DU FORMULAIRE ---
     const redirectInput = document.getElementById('form-redirect');
     if (redirectInput) {
+        // On s'assure que le champ a le bon nom pour Web3Forms
+        redirectInput.name = 'redirect';
+        
         const location = window.location;
         const path = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
         const thankYouUrl = location.origin + path + 'thank-you.html';
+        
         redirectInput.value = thankYouUrl;
     }
 
-    // ==================================================================
-    // NOUVELLE LOGIQUE POUR LE SÉLECTEUR DE LANGUE (simplifiée et corrigée)
-    // ==================================================================
+    // --- LOGIQUE POUR LE SÉLECTEUR DE LANGUE ---
     const langSwitcher = document.querySelector('.language-switcher');
     if (langSwitcher) {
         const langButtons = langSwitcher.querySelectorAll('button');
-
+        
         const switchLanguage = (lang) => {
-            // On change simplement la classe sur le body
+            // Change la classe sur le body (gère l'affichage des <span> via CSS)
             document.body.classList.remove('lang-en', 'lang-fr', 'lang-es');
             document.body.classList.add(`lang-${lang}`);
             
-            // On met à jour le bouton actif
+            // Met à jour le bouton actif
             langButtons.forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // NOUVEAU : Met à jour les placeholders du formulaire
+            const formInputs = document.querySelectorAll('[data-lang-en]');
+            formInputs.forEach(input => {
+                const placeholderText = input.getAttribute(`data-lang-${lang}`);
+                if (placeholderText) {
+                    input.placeholder = placeholderText;
+                }
             });
         };
 
@@ -133,8 +154,105 @@ function initializeSiteLogic() {
             });
         });
         
-        // On initialise en anglais par défaut
         switchLanguage('en');
+    }
+
+    // ==================================================================
+    // LOGIQUE DU CARROUSEL DE TÉMOIGNAGES (CORRIGÉE ET AMÉLIORÉE)
+    // ==================================================================
+    const testimonialCarousel = document.querySelector('.testimonial-carousel');
+    if (testimonialCarousel) {
+        const track = testimonialCarousel.querySelector('.carousel-track');
+        const slides = Array.from(track.children);
+        const nextButton = testimonialCarousel.querySelector('#testimonial-next');
+        const prevButton = testimonialCarousel.querySelector('#testimonial-prev');
+        const dotsNav = testimonialCarousel.querySelector('#testimonial-dots');
+        
+        // CORRECTION : On mesure le viewport, pas le slide, pour une largeur fiable.
+        const viewport = testimonialCarousel.querySelector('.carousel-viewport');
+        let slideWidth = viewport.getBoundingClientRect().width;
+        let currentIndex = 0;
+
+        // --- Création des points de navigation ---
+        slides.forEach((slide, index) => {
+            const dot = document.createElement('button');
+            dot.classList.add('carousel-dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateCarousel();
+            });
+            dotsNav.appendChild(dot);
+        });
+        const dots = Array.from(dotsNav.children);
+
+        // --- Fonction centrale pour mettre à jour le carrousel ---
+        const updateCarousel = () => {
+            track.style.transition = 'transform 0.5s ease-in-out'; // On s'assure que l'animation est active
+            track.style.transform = 'translateX(-' + slideWidth * currentIndex + 'px)';
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        };
+
+        // --- Logique pour les flèches ---
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateCarousel();
+        });
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateCarousel();
+        });
+
+        // --- NOUVEAU : Logique pour le swipe (drag & scroll) ---
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+
+        const getPositionX = (e) => e.touches[0].clientX;
+        
+        const touchStart = (e) => {
+            startPos = getPositionX(e);
+            isDragging = true;
+            prevTranslate = -currentIndex * slideWidth;
+            track.style.transition = 'none'; // On désactive l'animation pendant le drag
+        };
+
+        const touchMove = (e) => {
+            if (!isDragging) return;
+            const currentPosition = getPositionX(e);
+            currentTranslate = prevTranslate + currentPosition - startPos;
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        };
+
+        const touchEnd = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            const movedBy = currentTranslate - prevTranslate;
+
+            // On ne change de slide que si le swipe est significatif (plus de 50px)
+            if (movedBy < -50 && currentIndex < slides.length - 1) {
+                currentIndex++;
+            }
+            if (movedBy > 50 && currentIndex > 0) {
+                currentIndex--;
+            }
+            updateCarousel(); // On "snap" à la bonne position avec l'animation
+        };
+
+        track.addEventListener('touchstart', touchStart, { passive: true });
+        track.addEventListener('touchmove', touchMove, { passive: true });
+        track.addEventListener('touchend', touchEnd);
+        track.addEventListener('touchcancel', touchEnd); // Au cas où le doigt sort de l'écran
+
+        // --- Gestion du redimensionnement de la fenêtre ---
+        window.addEventListener('resize', () => {
+            slideWidth = viewport.getBoundingClientRect().width;
+            track.style.transition = 'none'; // On désactive l'animation pour le repositionnement instantané
+            updateCarousel();
+        });
     }
 }
 
@@ -144,7 +262,6 @@ function initializeSiteLogic() {
  * ==================================================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
-    // ... (votre chargeur de composants reste inchangé) ...
     const componentPlaceholders = document.querySelectorAll('[data-component]');
     const loadPromises = [];
     componentPlaceholders.forEach(placeholder => {

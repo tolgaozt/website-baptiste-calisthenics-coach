@@ -342,6 +342,111 @@ footer {
 
 
 /* --- 4.2 Section Programmes --- */
+/* Styles pour la carte de l'offre groupée */
+.bundle-link {
+    display: block;
+    text-decoration: none;
+    margin-bottom: 3rem;
+    transition: transform 0.3s ease;
+}
+
+.bundle-link:hover {
+    transform: translateY(-10px);
+}
+
+.bundle-card {
+    background-color: var(--bg-light);
+    border-radius: 10px;
+    border: 2px solid var(--accent-color);
+    overflow: hidden;
+    text-align: center;
+}
+
+.bundle-header {
+    background-color: var(--accent-color);
+    color: var(--bg-dark);
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bundle-header .highlight-discount {
+    color: #fff; /* Texte blanc pour un contraste maximal */
+    font-size: 2rem; /* Un peu plus grand pour attirer l'œil */
+    vertical-align:auto; /* Assure un bon alignement vertical avec le reste du texte */
+}
+
+.bundle-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1.5rem;
+    gap: 1rem;
+}
+
+.bundle-image {
+    height: 200px;
+    border-radius: 5px;
+}
+
+.bundle-operator {
+    font-size: 2rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+.bundle-result {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.bundle-operator-equal {
+    display: none;
+}
+
+.bundle-text-mobile {
+    display: block;
+    width: 100%;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem; /* Espace avant le prix */
+}
+
+/* NOUVEAU : Conteneur pour les prix */
+.bundle-price-container {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.bundle-new-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.bundle-old-price {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.bundle-old-price del {
+    text-decoration: line-through;
+}
+
+/* FIN BUNDLE STYLING  */
+
 .programs-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -442,28 +547,117 @@ footer {
 
 
 /* --- 4.4 Section Témoignages --- */
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+/* NOUVEAU : Style pour la section "Clients Satisfaits" */
+.satisfied-clients {
+    text-align: center;
+    margin-bottom: 3rem; /* Espace avant le titre "What they think" */
+    padding-bottom: 2rem; /* Espace sous le texte */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Ligne de séparation subtile */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.testimonial-card {
-    background: var(--bg-light);
-    padding: 2rem;
-    border-radius: 10px;
-    border-left: 5px solid var(--accent-color);
+.client-count {
+    font-family: 'Oswald', sans-serif; /* Police percutante comme le titre */
+    font-size: 5rem; /* Grande taille */
+    font-weight: 700;
+    color: var(--accent-color); /* Utilise la couleur d'accent */
+    line-height: 1.1;
 }
 
-.testimonial-card p {
-    font-style: italic;
+.client-text {
+    font-size: 2rem;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+/* fin style "clients satisfaits"  */
+
+/* Le conteneur principal du carrousel */
+.testimonial-carousel {
+    position: relative;
+    max-width: 600px; /* Largeur max du carrousel sur PC */
+    margin: 0 auto;
 }
 
-.testimonial-card span {
-    font-weight: 600;
-    color: var(--text-primary);
+.carousel-viewport {
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Le style de chaque slide, LA CLÉ pour éviter les sauts */
+.carousel-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+    height: 400px; /* HAUTEUR FIXE : ajustez cette valeur si besoin */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-light);
+    padding: 1rem;
+}
+
+.carousel-slide img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Assure que l'image est visible sans être déformée */
+    border-radius: 5px;
+}
+
+/* Style des flèches de navigation */
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-arrow:hover {
+    background-color: var(--accent-color);
+}
+
+.prev-arrow {
+    left: -20px;
+}
+
+.next-arrow {
+    right: -20px;
+}
+
+/* Style des points de navigation */
+.carousel-dots {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.carousel-dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: var(--text-secondary);
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-dot.active {
+    background-color: var(--accent-color);
 }
 
 
@@ -506,10 +700,13 @@ footer {
 /* Styles pour le sélecteur de langue */
 .language-switcher {
     text-align: center;
-    padding-top: 120px;
-    padding-bottom: 2rem;
+    margin-bottom: 2rem;
 }
+
 .language-switcher button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 0.9rem;
@@ -522,10 +719,17 @@ footer {
     cursor: pointer;
     transition: all 0.3s ease;
 }
+
+.language-switcher button img {
+    width: 20px;
+    border-radius: 2px;
+}
+
 .language-switcher button:hover {
     border-color: var(--accent-color);
     color: var(--accent-color);
 }
+
 .language-switcher button.active {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
@@ -548,7 +752,7 @@ body.lang-fr [lang="es"] {
     display: none;
 }
 body.lang-fr [lang="fr"] {
-    display: inline; /* ou block, ou unset selon le besoin */
+    display: inline;
 }
 
 /* Si le body a la classe 'lang-es', on affiche l'espagnol et on cache les autres */
@@ -561,7 +765,7 @@ body.lang-es [lang="es"] {
 }
 
 .program-page-section {
-    padding-top: 0;
+    padding-top: 5rem;
     padding-bottom: 5rem;
 }
 
@@ -858,5 +1062,33 @@ body.lang-es [lang="es"] {
 
     .about-text h2 {
         text-align: left;
+    }
+    
+    .bundle-content {
+        flex-wrap: nowrap;
+    }
+
+    .bundle-operator-equal {
+        display: inline;
+        font-size: 2.5rem;
+        color: var(--text-secondary);
+        font-weight: 300;
+    }
+
+    .bundle-text-mobile {
+        display: none;
+    }
+
+    .bundle-result {
+        width: auto;
+    }
+    
+    .bundle-price-container {
+        width: auto; 
+    }
+    .satisfied-clients {
+        max-width: 400px; /* Contrôle la longueur de la ligne. Ajustez cette valeur. */
+        margin-left: auto;  /* Centre le bloc horizontalement */
+        margin-right: auto;
     }
 }
